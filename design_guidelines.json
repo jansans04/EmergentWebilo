@@ -1,0 +1,340 @@
+{
+  "project_name": "Webilo — Dynamic One-Page Web Agency",
+  "app_type": "landing_page",
+  "language": "ca",
+  "design_philosophy": {
+    "identity": "E1 Creative Direction: Editorial, bold, precise, dynamic web craftsmanship. The site itself is the ultimate interactive meta-demo of Webilo's capabilities.",
+    "tonal_references": "Framer, Linear, Vercel with profound human warmth and tactile craft. Honest, sharp, confident.",
+    "anti_patterns_strictly_forbidden": [
+      "No generic AI buzzwords in copy ('AI-powered', 'revolutionary', 'next-gen', 'game-changing')",
+      "No glassmorphism for fashion's sake",
+      "No AI blob gradients or saturated rainbow blobs",
+      "No infinite looping bouncing badges or spinning badges",
+      "No aurora mesh backgrounds or floating particle canvases",
+      "No generic 3-card SaaS pricing boxes",
+      "No fake testimonial avatars or stock photo faces",
+      "No emojis used as functional icons (use Lucide clean line icons with turquoise accents)"
+    ]
+  },
+  "color_palette": {
+    "theme_mode": "Hybrid Editorial: Deep Midnight anchors (#0A2540) for key immersion statements and headers, Crisp White (#FFFFFF) & Soft Cloud Azure (#E6F4F8) for editorial breathing space, and vivid turquoise (#1FC8C0) reserved for 10-15% surface area as tactical kinetic triggers.",
+    "tokens": {
+      "primary_accent": "#1FC8C0",
+      "primary_accent_hover": "#7FE0DA",
+      "primary_accent_tint": "#E8FAF9",
+      "navy_deep": "#0A2540",
+      "navy_surface": "#0F3254",
+      "navy_border": "#1A446C",
+      "soft_azure_bg": "#E6F4F8",
+      "almost_black": "#0B1220",
+      "charcoal_text": "#1E293B",
+      "slate_gray_secondary": "#5B6B7A",
+      "border_subtle": "#E2E8F0",
+      "border_dark": "#1E3A5F",
+      "pure_white": "#FFFFFF"
+    },
+    "surface_strategy": {
+      "header": "Sticky with backdrop-blur-md bg-white/90 (or #0A2540/90 when over dark) + 1px bottom border (#E2E8F0 / #1A446C). Never fully transparent over text.",
+      "cards": "Subtle 1px border (#E2E8F0 or #1E3A5F in dark mode) with 12px-16px rounded corners (never pill shape for containers), matte elevation with deep diffuse shadow.",
+      "modals": "Full-bleed simulated browser container (100vh on mobile, inset 90vh on desktop) with dark chrome header (#0A2540) and JetBrains Mono address bar.",
+      "fab": "Floating WhatsApp pill button at bottom-right (z-50) with vivid green-teal accent (#25D366 or #1FC8C0) with high contrast text and label."
+    }
+  },
+  "typography": {
+    "font_family": {
+      "display": "'Satoshi', -apple-system, BlinkMacSystemFont, sans-serif",
+      "body": "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+      "mono": "'JetBrains Mono', 'Fira Code', monospace"
+    },
+    "font_sources": {
+      "satoshi_cdn": "@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,900&display=swap');",
+      "jetbrains_mono_cdn": "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');"
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08]",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-navy-deep",
+      "h3": "text-xl sm:text-2xl font-semibold tracking-tight",
+      "h4": "text-lg sm:text-xl font-medium",
+      "body_lead": "text-lg sm:text-xl text-slate_gray_secondary leading-relaxed font-normal",
+      "body": "text-base text-slate_gray_secondary leading-relaxed",
+      "caption": "text-xs sm:text-sm font-medium tracking-wide uppercase",
+      "mono_label": "font-mono text-xs sm:text-sm tracking-wider uppercase"
+    }
+  },
+  "layout_and_architecture": {
+    "page_structure": "Dynamic One-Page format with 7 distinct narrative blocks + header + footer + modals",
+    "blocks": [
+      {
+        "id": "hero",
+        "name": "Constructive Live Hero",
+        "bg": "bg-[#0A2540] text-white relative overflow-hidden",
+        "key_features": [
+          "Editorial headline in Catalan: 'Dissenyem webs que fan feina, no només bonic.'",
+          "Interactive/Animated live construction wireframe: UI skeleton drawing in real-time (header bar, hero block, grid layout, CTA pulse) symbolizing Webilo assembling live code",
+          "Double CTA: Primari 'Veure serveis' (scroll to #serveis) + Secundari WhatsApp ('Parlem per WhatsApp' obre directament wa.me/34XXXXXXXXX amb missatge predefinit)",
+          "Subtle mouse parallax on geometric accents and technical wireframe markers",
+          "Tactical status badge: 'Disponibilitat per a nous projectes: 2 places aquest mes'"
+        ],
+        "test_ids": {
+          "section": "hero-section",
+          "headline": "hero-headline",
+          "cta_services": "hero-cta-services",
+          "cta_whatsapp": "hero-cta-whatsapp",
+          "wireframe_canvas": "hero-wireframe-canvas"
+        }
+      },
+      {
+        "id": "social-strip",
+        "name": "Mini-Strip Prova Social Ràpida (Sense Fums)",
+        "bg": "bg-white border-y border-border",
+        "key_features": [
+          "Zero fake metrics. Honest client commitments and concrete operational guarantees.",
+          "Badges: 'Codi net i propi (sense plantilles pesades)', '100% responsive per a mòbil', 'Entrega en 10-15 dies', 'Suport directe sense intermediaris'",
+          "Logotips minimalistes de sectors reals servits a Catalunya (Arquitectura, Clíniques, Comerç local, Serveis professionals)"
+        ],
+        "test_ids": {
+          "section": "social-proof-strip"
+        }
+      },
+      {
+        "id": "serveis",
+        "name": "Interactive Full-Height Service Switcher",
+        "bg": "bg-[#E6F4F8]/60 py-24",
+        "key_features": [
+          "Vertical stacked selector on left (desktop): 1) Aparador · 2) Web Professional (amb badge 'Més escollit' #1FC8C0) · 3) Botiga Online",
+          "Large interactive browser mockup on right displaying high-fidelity preview of each live service demo",
+          "Bottom-center specs: Preu clar a partir de, per a qui és idoni, 4 features clau amb checkmark turquesa, i botó 'Ho vull' que obre contacte amb el servei pre-seleccionat",
+          "Botó 'Obrir demo interactiva' dins del mockup que dispara la Demo Modal Fullscreen",
+          "Fluid crossfade + subtle scale (Framer Motion) al canviar entre serveis",
+          "En mòbil: carrusel horitzontal amb snap o tabs amb selector tàctil optimitzat"
+        ],
+        "services_data": [
+          {
+            "id": "aparador",
+            "name": "Web Aparador",
+            "badge": "Llançament ràpid",
+            "tagline": "Presència professional immediata per a negocis locals i professionals independents.",
+            "price": "Des de 650 €",
+            "timeframe": "Entrega en 7-10 dies",
+            "target": "Professionals autònoms, petits tallers, serveis d'urgència o negocis que necessiten credibilitat ràpida.",
+            "features": [
+              "Landing one-page ultraràpida optimitzada per a conversions",
+              "Integració directa amb WhatsApp i trucada amb un sol clic",
+              "SEO local configurat (Google Business i geolocalització)",
+              "Allotjament d'alta velocitat i certificat SSL inclòs"
+            ],
+            "demo_id": "fusteria",
+            "demo_title": "Fusteria Artesana Mas & Fills",
+            "demo_fake_url": "aparador-demo.webilo.cat"
+          },
+          {
+            "id": "professional",
+            "name": "Web Professional",
+            "badge": "Més escollit",
+            "tagline": "La solució corporativa completa per captar clients i posicionar la teva marca amb autoritat.",
+            "price": "Des de 1.250 €",
+            "timeframe": "Entrega en 14 dies",
+            "target": "Clíniques, despatxos d'advocats, enginyeries, consultories i empreses de serveis en creixement.",
+            "features": [
+              "Arquitectura multipàgina (fins a 5 seccions/pàgines d'alt impacte)",
+              "Sistema de reserva de cites o formulari qualificat per a leads",
+              "Optimització Core Web Vitals (càrrega < 1 segon)",
+              "Panell autogestionable intuïtiu per editar textos i imatges"
+            ],
+            "demo_id": "dentista",
+            "demo_title": "Clínica Dental Dr. Ramoneda",
+            "demo_fake_url": "professional-demo.webilo.cat"
+          },
+          {
+            "id": "botiga",
+            "name": "Botiga Online",
+            "badge": "Comerç electrònic",
+            "tagline": "Ven els teus productes 24/7 amb una experiència de compra fluida i sense comissions afegides.",
+            "price": "Des de 1.950 €",
+            "timeframe": "Entrega en 20 dies",
+            "target": "Marques de moda, artesans, productors locals i comerços que volen vendre arreu de Catalunya i l'Estat.",
+            "features": [
+              "Catàleg de productes amb variants, fotos en alta resolució i stock",
+              "Passarel·la de pagament segura (Targeta, Bizum, Apple Pay, Stripe)",
+              "Cistella de compra optimitzada per reduir carrets abandonats",
+              "Panell de gestió de comandes, factures i transportistes"
+            ],
+            "demo_id": "moda",
+            "demo_title": "Atelier Nua — Moda Sostenible",
+            "demo_fake_url": "botiga-demo.webilo.cat"
+          }
+        ],
+        "test_ids": {
+          "section": "services-switcher-section",
+          "tab_prefix": "service-tab-",
+          "preview_mockup": "service-preview-mockup",
+          "cta_want": "service-cta-want",
+          "btn_open_demo": "service-btn-open-demo"
+        }
+      },
+      {
+        "id": "demos",
+        "name": "Demos Integrades Fullscreen Modal",
+        "description": "Mockup de navegador d'escriptori / 100vh mòbil amb barra superior d'URL estil JetBrains Mono (ex: aparador-demo.webilo.cat), botons de control de finestra macOS, i una web fake completa i scrollable dissenyada amb caràcter editorial artesanal per a cadascun dels tres sectors.",
+        "sectors": [
+          {
+            "id": "fusteria",
+            "name": "Fusteria Mas & Fills (Aparador)",
+            "aesthetic": "Artesania de la fusta, tons càlids fusta roure (#8C5E3C / #2C1810), tipografia editorial forta, galeria de projectes a mida, botó de trucada directa per pressupost.",
+            "url": "fusteria-mas.webilo.cat"
+          },
+          {
+            "id": "dentista",
+            "name": "Clínica Dental Ramoneda (Professional)",
+            "aesthetic": "Clínica mèdica moderna, blanc pur i blau cobalt suau (#0F4C81 / #EBF3FA), selector d'equip mèdic, calendari per demanar primera visita gratuïta, testimonis de pacients reals.",
+            "url": "dental-ramoneda.webilo.cat"
+          },
+          {
+            "id": "moda",
+            "name": "Atelier Nua (Botiga Online)",
+            "aesthetic": "Moda minimalista mediterrània, tons sorra i lli (#EFECE6 / #1A1A1A), graella de productes asimètrica, selector de talla/color, carret lateral interactiu amb simulació de pagament.",
+            "url": "atelier-nua.webilo.cat"
+          }
+        ],
+        "test_ids": {
+          "modal": "demo-fullscreen-modal",
+          "close_btn": "demo-modal-close-button",
+          "url_bar": "demo-modal-url-bar",
+          "viewport_container": "demo-modal-viewport"
+        }
+      },
+      {
+        "id": "com-funciona",
+        "name": "Com Funciona + Per Què Webilo (Bloc Compacte)",
+        "bg": "bg-[#0A2540] text-white py-24",
+        "key_features": [
+          "Fusió de procés de 4 passes clares + diferencials de Webilo",
+          "Passa 1: Cafè i briefing (Ens expliques què fas i definim objectius clars sense tecnicismes)",
+          "Passa 2: Prototip en viu (En 5 dies veus el disseny real al navegador, no un PDF estàtic)",
+          "Passa 3: Desenvolupament i continguts (Codi net, velocitat extrema i textos revisats)",
+          "Passa 4: Llançament i formació (T'ensenyem a fer canvis bàsics i gestionem el domini)",
+          "Number counters dinàmics: '< 1s' Temps mitjà de càrrega, '10-15 dies' Termini mig d'entrega, '100%' Codi propi sense plantilles genèriques, '0 comissions' per venda a la botiga",
+          "Microcopy d'avantatges: 'Parlaràs amb el dissenyador i programador, no amb un gestor de comptes junior.'"
+        ],
+        "test_ids": {
+          "section": "how-it-works-section",
+          "step_prefix": "step-card-",
+          "counter_prefix": "stat-counter-"
+        }
+      },
+      {
+        "id": "quiz",
+        "name": "Quiz Plegable: Quin servei necessites?",
+        "bg": "bg-white py-16 border-b border-border",
+        "key_features": [
+          "Format col·lapsable/expandible amb animació suau per no restar protagonisme",
+          "Pregunta 1: 'Quin és el teu tipus de negoci actual?' (Autònom / Empresa de serveis / Venc producte físic / Marca personal)",
+          "Pregunta 2: 'Quin és el teu objectiu principal?' (Tenir presència i que em truquin / Captar clients potencials i cites / Vendre per internet / Renovar una web antiga)",
+          "Pregunta 3: 'De quant temps disposes?' (Urgència màxima < 10 dies / Termini normal 2-3 setmanes / Estem planificant a mes vista)",
+          "Resultat instantani recomanat: Mostra el servei idoni (ex: 'Per al teu cas, el més recomanable és la Web Professional') amb accés directe a demanar pressupost amb les teves respostes ja marcades."
+        ],
+        "test_ids": {
+          "section": "service-quiz-section",
+          "toggle_button": "quiz-toggle-button",
+          "step_container": "quiz-step-container",
+          "option_button_prefix": "quiz-option-",
+          "result_card": "quiz-result-card"
+        }
+      },
+      {
+        "id": "faq-contacte",
+        "name": "FAQ Accordion + Formulari de Contacte & WhatsApp",
+        "bg": "bg-[#E6F4F8]/40 py-24",
+        "key_features": [
+          "Secció combinada: esquerra 5 preguntes freqüents claus amb acordió Shadcn; dreta formulari de contacte directe connectat al backend FastAPI",
+          "FAQs reals sense fums: 1) Quant trigareu a fer la web? 2) Haig de pagar quotes mensuals obligatòries? 3) Puc editar jo mateix els textos després? 4) Com funciona el pagament? 5) Què passa si ja tinc un domini comprat?",
+          "Formulari complet: Nom, Empresa/Projecte, Email, Telèfon/WhatsApp, Servei d'interès (select pre-omplert), Missatge, i selector d'urgència",
+          "Integració FastAPI: POST a /api/contacte que guarda a MongoDB i mostra feedback clar amb Sonner toast",
+          "Botó directe de WhatsApp gran i destacat: 'Prefereixes enviar un missatge de veu o xatejar ara mateix?' obre xat directe immediat."
+        ],
+        "test_ids": {
+          "section": "faq-contact-section",
+          "faq_accordion": "faq-accordion",
+          "contact_form": "contact-form",
+          "input_name": "contact-input-name",
+          "input_email": "contact-input-email",
+          "input_phone": "contact-input-phone",
+          "select_service": "contact-select-service",
+          "textarea_message": "contact-textarea-message",
+          "submit_button": "contact-submit-button",
+          "whatsapp_direct_button": "contact-whatsapp-direct-button"
+        }
+      },
+      {
+        "id": "footer",
+        "name": "Footer Minimalista & Editorial",
+        "bg": "bg-[#0B1220] text-white py-16 border-t border-[#1E3A5F]",
+        "key_features": [
+          "Logotip Webilo amb punt turquesa #1FC8C0",
+          "Tagline editorial: 'L'agència de disseny i desenvolupament web per a qui valora els detalls i els resultats.'",
+          "Enllaços interns ràpids: Serveis, Demos en viu, Procés, Preguntes, Contacte",
+          "Dades de contacte clares: hola@webilo.cat, Barcelona & Girona, WhatsApp directe",
+          "Made with craft notice: 'Fet a Catalunya amb React, FastAPI i molt de cafè.'"
+        ],
+        "test_ids": {
+          "footer": "main-footer"
+        }
+      }
+    ],
+    "global_elements": [
+      {
+        "name": "Progress Indicator Top Bar",
+        "description": "Barra prima de 3px a dalt de tot de la finestra que reflecteix el progrés de scroll de la pàgina en color turquesa #1FC8C0.",
+        "test_id": "scroll-progress-bar"
+      },
+      {
+        "name": "Sticky Adaptive Navigation Bar",
+        "description": "Barra de navegació sticky. Al hero fosc adopta fons fosc translúcid #0A2540/90 amb blur; al fer scroll sobre fons blanc passa a blanc translúcid #FFFFFF/90 amb subtil vora inferior. Inclou logo Webilo, enllaços (Serveis, Demos, Com funciona, FAQ), botó de WhatsApp i CTA primari 'Contacta'.",
+        "test_id": "navbar-sticky",
+        "mobile_menu_test_id": "navbar-mobile-fullscreen-menu"
+      },
+      {
+        "name": "Floating Action Button (FAB) WhatsApp",
+        "description": "Botó flotant rodó o píndola a la cantonada inferior dreta (z-50) amb la icona de WhatsApp i micro-avís 'Parlem?', disponible a tot el lloc web per a conversió ràpida.",
+        "test_id": "floating-whatsapp-fab"
+      },
+      {
+        "name": "Custom Magnetic Cursor",
+        "description": "Punt subtil turquesa que segueix el ratolí en desktop i s'eixampla lleugerament sobre botons i selectors interactius. Desactivat automàticament en dispositius tàctils o amb prefers-reduced-motion.",
+        "test_id": "custom-magnetic-cursor"
+      }
+    ]
+  },
+  "interactive_motion_rules": {
+    "engine": "framer-motion (v11 ja instal·lada)",
+    "smooth_scroll": "Lenis o smooth scroll nadiu amb gestió d'ancoratge per a React",
+    "reveal_effects": "Subtle reveals: opacity 0 -> 1, translateY 10px -> 0px, duration 0.4s-0.5s easeOut. No dramatics or heavy parallax.",
+    "service_switcher_transition": "AnimatePresence crossfade amb lleuger scale (0.98 -> 1.0) per al mockup en canviar de servei.",
+    "number_counters": "Animació de comptadors numèrics disparada quan la secció entra en pantalla.",
+    "reduced_motion": "Totes les animacions s'han de simplificar a opacity instantània si window.matchMedia('(prefers-reduced-motion: reduce)') és actiu."
+  },
+  "backend_integration": {
+    "fastapi_endpoint": "/api/contacte",
+    "method": "POST",
+    "payload_structure": {
+      "nom": "string (obligatori)",
+      "email": "string (obligatori, format email)",
+      "telefon": "string (opcional)",
+      "servei": "string (aparador | professional | botiga | altre)",
+      "missatge": "string (obligatori)",
+      "urgencia": "string (immediata | 2_setmanes | planificant)"
+    },
+    "expected_response": {
+      "success": true,
+      "message": "Missatge rebut correctament! Ens posarem en contacte en menys de 24 hores."
+    },
+    "error_handling": "Mostrar toast vermell d'error i mantenir les dades al formulari per no perdre-les."
+  },
+  "general_ui_ux_guidelines": [
+    "No emojis as icons. Use Lucide icons: ArrowRight, Check, MessageSquare, Phone, ExternalLink, Sparkles, Monitor, Layers, ShoppingBag, ShieldCheck, Clock, Zap, Menu, X, HelpCircle, Send.",
+    "Buttons must have distinct states: default, hover (slight brightness or bg-accent shift), active (scale 0.98), focus-visible ring-2 ring-primary ring-offset-2.",
+    "All inputs must have crisp 1px borders, clear placeholder text in Catalan, focus rings in #1FC8C0, and big touch targets (min 48px height) on mobile.",
+    "Every interactive button, link, switch, modal trigger and input MUST possess an explicit data-testid attribute in kebab-case format.",
+    "Keep typography strictly to Satoshi for headlines and display, Inter for body and labels, and JetBrains Mono for URLs and code-like metadata."
+  ]
+}
