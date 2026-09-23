@@ -1,11 +1,12 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
+    AnimatePresence,
     motion,
     useReducedMotion,
     useScroll,
     useTransform,
 } from "framer-motion";
-import { ArrowDown, ImageIcon } from "lucide-react";
+import { ArrowDown, ImageIcon, RotateCcw } from "lucide-react";
 import { waLink } from "@/data/content";
 import { scrollToId } from "@/utils/scroll";
 import WhatsAppIcon from "@/components/WhatsAppIcon";

@@ -74,8 +74,8 @@ const Landing = () => {
                 <Hero />
                 <SocialProof />
                 <ServiceSwitcher onWant={handleWant} />
-                <HowItWorks />
                 <Quiz onWant={handleWant} />
+              <HowItWorks />
                 <FaqContact preselectedService={preselectedService} />
             </main>
             <Footer />

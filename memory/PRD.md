@@ -24,6 +24,8 @@ Proposta d'arquitectura, UX/UI i direcció visual per a Webilo (agència de webs
 - Navegació: header sticky transparent→blur, progress bar turquesa, CTA sempre visible, menú mòbil fullscreen, FAB WhatsApp mòbil.
 - Backend: POST /api/contacte funcional, guardat a MongoDB, toast Sonner d'èxit/error, preselecció de servei des de "Ho vull" i del quiz.
 - Test IDs a tots els elements interactius.
+- Poliment 2a ronda (2026-09-21): hero amb mini-demo de muntatge per fases amb replay, scroll amb ratolí dins les demos (data-lenis-prevent), cistella funcional amb drawer a la demo de moda, panell de preu/CTA destacat en navy amb CTA turquesa, tab "Més escollit" amb cinta superposada i anell turquesa, quiz integrat just sota els serveis (mateixa zona azure).
+- Poliment 3a ronda (2026-09-21): hero amb blocs arrossegables (mode "munta-la tu" amb drag&drop i snap, més mode automàtic amb replay); serveis reestructurats en 3 targetes comparatives amb preu gran visible a l'hora; la targeta seleccionada sincronitza amb la preview de demo i el panell navy de sota; carrusel mòbil eliminat (les targetes fan de selector a totes les mides); "Més escollit" canviat a Botiga Online (Web Professional passa a "La més completa"); demo i panell d'informació ara costat a costat (2 columnes) per reduir l'scroll de la secció.
 
 ## Placeholders marcats [s'ha d'afegir]
 - WhatsApp: 34600000000 (src/data/content.js WHATSAPP_NUMBER).

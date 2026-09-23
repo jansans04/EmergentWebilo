@@ -40,10 +40,9 @@ export const Quiz = ({ onWant }) => {
         <section
             id="quiz"
             data-testid="service-quiz-section"
-            className="bg-white py-16 lg:py-20 border-b border-slate-200/70"
+            className="bg-azure/60 px-5 pb-24 lg:pb-32"
         >
-            <div className="mx-auto max-w-4xl px-5 sm:px-8">
-                <button
+            <div className="mx-auto max-w-4xl rounded-3xl bg-white border border-slate-200 shadow-soft p-6 sm:p-10">                <button
                     data-testid="quiz-toggle-button"
                     onClick={() => setOpen((o) => !o)}
                     className="w-full flex items-center justify-between gap-6 text-left group"

@@ -69,6 +69,7 @@ export const DemoModal = ({ demoId, demoUrl, onClose }) => {
                 </div>
                 <div
                     data-testid="demo-modal-viewport"
+                    data-lenis-prevent
                     className="flex-1 overflow-y-auto overscroll-contain demo-scroll"
                 >
                     <Demo />
