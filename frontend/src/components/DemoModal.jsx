@@ -43,8 +43,12 @@ export const DemoModal = ({ demoId, demoUrl, onClose }) => {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 28, scale: 0.98 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="relative w-full h-full sm:h-[min(90vh,920px)] sm:w-[min(1200px,94vw)] sm:rounded-2xl overflow-hidden bg-white shadow-2xl flex flex-col"
+                className="relative w-full h-full sm:h-[min(90vh,920px)] sm:w-[min(1200px,94vw)] sm:rounded-2xl overflow-hidden bg-white shadow-2xl"
             >
+                <div
+                    className="w-full h-full flex flex-col"
+                    style={{ transform: "translateZ(0)" }}
+                >
                 <div className="flex items-center gap-2 px-4 h-12 bg-navy shrink-0">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
                     <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
@@ -73,6 +77,7 @@ export const DemoModal = ({ demoId, demoUrl, onClose }) => {
                     className="flex-1 overflow-y-auto overscroll-contain demo-scroll"
                 >
                     <Demo />
+                </div>
                 </div>
             </motion.div>
         </div>

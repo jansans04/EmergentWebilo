@@ -1,26 +1,57 @@
 import { useState } from "react";
-import { ShoppingBag } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, ShoppingBag, X } from "lucide-react";
 import { IMAGES } from "@/data/content";
 
 const fakeLink = (e) => e.preventDefault();
 
 const PRODUCTS = [
     {
+        id: "p1",
         img: IMAGES.modaP1,
         name: "Blàzer oversized de llana",
-        price: "165 €",
+        price: 165,
         tag: "Nou",
         span: "sm:col-span-2",
     },
-    { img: IMAGES.modaP2, name: "Trinxera de cotó", price: "189 €", tag: null },
-    { img: IMAGES.modaP3, name: "Vestit de festa", price: "129 €", tag: null },
+    { id: "p2", img: IMAGES.modaP2, name: "Trinxera de cotó", price: 189, tag: null },
+    { id: "p3", img: IMAGES.modaP3, name: "Vestit de festa", price: 129, tag: null },
 ];
 
 export const ModaDemo = () => {
-    const [cart, setCart] = useState(0);
+    const [items, setItems] = useState([]);
+    const [cartOpen, setCartOpen] = useState(false);
+    const [bump, setBump] = useState(0);
+    const [justAdded, setJustAdded] = useState(null);
+    const [ordered, setOrdered] = useState(false);
+
+    const totalQty = items.reduce((n, it) => n + it.qty, 0);
+    const total = items.reduce((n, it) => n + it.qty * it.price, 0);
+
+    const addToCart = (p) => {
+        setItems((prev) => {
+            const found = prev.find((it) => it.id === p.id);
+            if (found)
+                return prev.map((it) =>
+                    it.id === p.id ? { ...it, qty: it.qty + 1 } : it,
+                );
+            return [...prev, { id: p.id, name: p.name, price: p.price, qty: 1 }];
+        });
+        setBump((b) => b + 1);
+        setJustAdded(p.id);
+        setTimeout(() => setJustAdded((j) => (j === p.id ? null : j)), 1300);
+    };
+
+    const openCart = () => {
+        setOrdered(false);
+        setCartOpen(true);
+    };
 
     return (
-        <div data-testid="demo-moda" className="bg-[#EFECE6] text-[#191919]">
+        <div
+            data-testid="demo-moda"
+            className="relative overflow-hidden bg-[#EFECE6] text-[#191919]"
+        >
             <div className="flex items-center justify-between px-6 sm:px-10 py-5 border-b border-[#191919]/10">
                 <span className="font-display font-black text-xl tracking-[0.2em]">
                     NUA
@@ -31,11 +62,20 @@ export const ModaDemo = () => {
                     <a href="#" onClick={fakeLink} className="hover:text-[#191919]">Manifest</a>
                 </nav>
                 <button
-                    className="flex items-center gap-2 rounded-lg border border-[#191919]/25 text-sm font-semibold px-4 py-2"
                     data-testid="demo-moda-cart"
+                    onClick={openCart}
+                    className="flex items-center gap-2 rounded-lg border border-[#191919]/25 text-sm font-semibold px-4 py-2 hover:bg-[#191919] hover:text-[#EFECE6] transition-colors"
                 >
-                    <ShoppingBag size={15} />
-                    Cistella ({cart})
+                    <motion.span
+                        key={bump}
+                        initial={bump ? { scale: 1.45 } : false}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                        className="flex"
+                    >
+                        <ShoppingBag size={15} />
+                    </motion.span>
+                    Cistella ({totalQty})
                 </button>
             </div>
 
@@ -86,7 +126,7 @@ export const ModaDemo = () => {
                 </div>
                 <div className="mt-8 grid sm:grid-cols-3 gap-5">
                     {PRODUCTS.map((p) => (
-                        <div key={p.name} className={`${p.span} group`}>
+                        <div key={p.id} className={`${p.span} group`}>
                             <div className="overflow-hidden rounded-xl aspect-[3/4] bg-white">
                                 <img
                                     src={p.img}
@@ -104,14 +144,18 @@ export const ModaDemo = () => {
                                             </span>
                                         )}
                                     </p>
-                                    <p className="text-sm text-[#191919]/50 mt-0.5">{p.price}</p>
+                                    <p className="text-sm text-[#191919]/50 mt-0.5">{p.price} €</p>
                                 </div>
                                 <button
                                     data-testid="demo-moda-add-button"
-                                    onClick={() => setCart((c) => c + 1)}
-                                    className="rounded-lg border border-[#191919]/25 text-sm font-semibold px-3.5 py-2 hover:bg-[#191919] hover:text-[#EFECE6] active:scale-95 transition-all"
+                                    onClick={() => addToCart(p)}
+                                    className={`shrink-0 rounded-lg text-sm font-semibold px-3.5 py-2 active:scale-95 transition-all ${
+                                        justAdded === p.id
+                                            ? "bg-[#191919] text-[#EFECE6]"
+                                            : "border border-[#191919]/25 hover:bg-[#191919] hover:text-[#EFECE6]"
+                                    }`}
                                 >
-                                    Afegir
+                                    {justAdded === p.id ? "Afegit ✓" : "Afegir"}
                                 </button>
                             </div>
                         </div>
@@ -129,6 +173,137 @@ export const ModaDemo = () => {
                     © Atelier Nua — demo maquetada per Webilo
                 </p>
             </div>
+
+            <AnimatePresence>
+                {cartOpen && (
+                    <>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setCartOpen(false)}
+                            className="fixed inset-0 bg-[#191919]/30 z-10"
+                        />
+                        <motion.aside
+                            initial={{ x: "110%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "110%" }}
+                            transition={{ type: "spring", stiffness: 260, damping: 28 }}
+                            className="fixed top-0 right-0 bottom-0 z-20 w-[88%] max-w-sm bg-[#EFECE6] border-l border-[#191919]/10 p-6 flex flex-col"
+                        >
+                            <div className="flex items-center justify-between">
+                                <p className="font-display font-bold text-xl">La teva cistella</p>
+                                <button
+                                    data-testid="demo-moda-close-cart"
+                                    onClick={() => setCartOpen(false)}
+                                    aria-label="Tancar cistella"
+                                    className="flex items-center justify-center w-9 h-9 rounded-lg border border-[#191919]/20 hover:bg-[#191919]/5"
+                                >
+                                    <X size={16} />
+                                </button>
+                            </div>
+
+                            {ordered ? (
+                                <div className="flex-1 flex flex-col items-center justify-center text-center gap-3">
+                                    <span className="flex items-center justify-center w-14 h-14 rounded-full bg-[#191919] text-[#EFECE6]">
+                                        <Check size={24} />
+                                    </span>
+                                    <p className="font-display font-bold text-xl">
+                                        Comanda rebuda!
+                                    </p>
+                                    <p className="text-sm text-[#191919]/60">
+                                        Aquesta és una demo: el pagament no està
+                                        connectat, però ja veus com quedaria el
+                                        teu procés de compra.
+                                    </p>
+                                    <button
+                                        data-testid="demo-moda-continue"
+                                        onClick={() => {
+                                            setItems([]);
+                                            setCartOpen(false);
+                                        }}
+                                        className="mt-2 rounded-lg bg-[#191919] text-[#EFECE6] text-sm font-semibold px-5 py-3"
+                                    >
+                                        Seguir comprant
+                                    </button>
+                                </div>
+                            ) : items.length === 0 ? (
+                                <div className="flex-1 flex flex-col items-center justify-center text-center gap-2">
+                                    <ShoppingBag size={26} className="text-[#191919]/30" />
+                                    <p className="text-sm text-[#191919]/60">
+                                        La cistella és buida.
+                                        <br />
+                                        Afegeix alguna peça de la col·lecció.
+                                    </p>
+                                </div>
+                            ) : (
+                                <>
+                                    <ul className="mt-6 flex-1 space-y-4 overflow-y-auto">
+                                        {items.map((it) => (
+                                            <li
+                                                key={it.id}
+                                                className="flex items-center justify-between gap-3 border-b border-[#191919]/10 pb-4"
+                                            >
+                                                <div>
+                                                    <p className="text-sm font-semibold">{it.name}</p>
+                                                    <p className="text-xs text-[#191919]/50">
+                                                        {it.qty} × {it.price} €
+                                                    </p>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <button
+                                                        data-testid="demo-moda-decrease"
+                                                        onClick={() =>
+                                                            setItems((prev) =>
+                                                                prev
+                                                                    .map((x) =>
+                                                                        x.id === it.id
+                                                                            ? { ...x, qty: x.qty - 1 }
+                                                                            : x,
+                                                                    )
+                                                                    .filter((x) => x.qty > 0),
+                                                            )
+                                                        }
+                                                        className="w-7 h-7 rounded border border-[#191919]/25 text-sm leading-none hover:bg-[#191919]/5"
+                                                    >
+                                                        −
+                                                    </button>
+                                                    <span className="w-4 text-center text-sm font-semibold">
+                                                        {it.qty}
+                                                    </span>
+                                                    <button
+                                                        data-testid="demo-moda-increase"
+                                                        onClick={() => addToCart(PRODUCTS.find((p) => p.id === it.id))}
+                                                        className="w-7 h-7 rounded border border-[#191919]/25 text-sm leading-none hover:bg-[#191919]/5"
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <div className="pt-4 border-t border-[#191919]/10">
+                                        <div className="flex justify-between text-sm font-semibold">
+                                            <span>Total</span>
+                                            <span data-testid="demo-moda-total">{total} €</span>
+                                        </div>
+                                        <button
+                                            data-testid="demo-moda-checkout"
+                                            onClick={() => setOrdered(true)}
+                                            className="mt-4 w-full h-12 rounded-xl bg-[#191919] text-[#EFECE6] font-semibold hover:opacity-90 active:scale-[0.99] transition-all"
+                                        >
+                                            Tramet la comanda
+                                        </button>
+                                        <p className="mt-2.5 text-center font-mono text-[10px] text-[#191919]/40">
+                                            Demo: el pagament no està connectat
+                                        </p>
+                                    </div>
+                                </>
+                            )}
+                        </motion.aside>
+                    </>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

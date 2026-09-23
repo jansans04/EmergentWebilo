@@ -13,107 +13,263 @@ import WhatsAppIcon from "@/components/WhatsAppIcon";
 
 const LINES = ["Dissenyem webs", "que fan feina,", "no només boniques."];
 
-const wireContainer = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.13, delayChildren: 0.85 } },
-};
-const wireItem = {
-    hidden: { opacity: 0, y: 14, scale: 0.97 },
-    show: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+const PIECE_ORDER = ["nav", "titol", "imatge", "boto"];
+
+const SLOTS = {
+    nav: {
+        label: "<nav/>",
+        fx: 0.5,
+        fy: 33,
+        style: { top: 20, left: 20, right: 20, height: 26 },
+    },
+    titol: {
+        label: "<h1/>",
+        fx: 0.34,
+        fy: 81,
+        style: { top: 64, left: 20, width: "56%", height: 34 },
+    },
+    imatge: {
+        label: "hero.jpg",
+        fx: 0.5,
+        fy: 170,
+        style: { top: 122, left: 20, right: 20, height: 96 },
+    },
+    boto: {
+        label: "cta",
+        fx: 0.18,
+        fy: 249,
+        style: { top: 234, left: 20, width: 96, height: 30 },
     },
 };
 
-const Wireframe = ({ reduce }) => (
-    <motion.div
-        variants={wireContainer}
-        initial={reduce ? "show" : "hidden"}
-        animate="show"
-        className="relative rounded-2xl border border-white/10 bg-navy-surface/70 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)] overflow-hidden"
-    >
-        <div className="flex items-center gap-2 px-4 h-10 border-b border-white/10">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-            <motion.div
-                variants={wireItem}
-                className="flex-1 ml-3 flex items-center gap-2 font-mono text-[11px] text-white/60 bg-white/5 rounded-md px-3 py-1"
-            >
-                <span className="w-1.5 h-1.5 rounded-full bg-turquoise animate-pulse" />
-                montem-teva-web.cat
-            </motion.div>
-        </div>
+const PHASES = [
+    "muntant l'estructura…",
+    "afegint el contingut…",
+    "posant-hi imatges…",
+    "últims detalls…",
+    "publicada ✓",
+];
 
-        <div className="p-5 space-y-4 relative">
-            <motion.div variants={wireItem} className="flex items-center gap-3">
-                <span className="w-3 h-3 rounded-full bg-turquoise" />
-                <span className="h-2 w-10 rounded-full bg-white/20" />
-                <span className="h-2 w-8 rounded-full bg-white/10" />
-                <span className="h-2 w-8 rounded-full bg-white/10" />
-            </motion.div>
-
-            <div className="space-y-2 pt-2">
-                <motion.span variants={wireItem} className="block h-3.5 w-3/4 rounded-full bg-white/25" />
-                <motion.span variants={wireItem} className="block h-3.5 w-1/2 rounded-full bg-white/15" />
+const PieceVisual = ({ id }) => {
+    if (id === "nav")
+        return (
+            <div className="w-full h-full rounded-lg bg-white/10 border border-white/15 flex items-center gap-2 px-2.5">
+                <span className="w-2 h-2 rounded-full bg-turquoise" />
+                <span className="h-1.5 w-8 rounded-full bg-white/30" />
+                <span className="h-1.5 w-6 rounded-full bg-white/15" />
+                <span className="h-1.5 w-6 rounded-full bg-white/15" />
             </div>
-
-            <motion.div variants={wireItem}>
-                <motion.span
-                    className="inline-block h-7 w-24 rounded-md bg-turquoise"
-                    animate={reduce ? {} : { scale: [1, 1.06, 1] }}
-                    transition={{ delay: 2.3, duration: 0.6 }}
-                />
-            </motion.div>
-
-            <div className="relative">
-                <motion.div
-                    variants={wireItem}
-                    className="h-32 rounded-xl border-2 border-dashed border-turquoise/50 relative overflow-hidden"
-                >
-                    <motion.div
-                        initial={reduce ? {} : { clipPath: "inset(0 100% 0 0)" }}
-                        animate={{ clipPath: "inset(0 0% 0 0)" }}
-                        transition={{ delay: 1.8, duration: 0.8, ease: "easeOut" }}
-                        className="absolute inset-0 bg-turquoise/10 flex items-center justify-center gap-2"
-                    >
-                        <ImageIcon size={18} className="text-turquoise" />
-                        <span className="font-mono text-[11px] text-turquoise">
-                            hero.jpg
-                        </span>
-                    </motion.div>
-                </motion.div>
-                <motion.span
-                    initial={reduce ? {} : { opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 2.5 }}
-                    className="absolute -right-2 -top-3 font-mono text-[10px] text-turquoise/90 bg-navy border border-navy-border rounded px-1.5 py-0.5"
-                >
-                    {"<header />"}
-                </motion.span>
-                <motion.span
-                    initial={reduce ? {} : { opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 2.7 }}
-                    className="absolute -left-3 -bottom-3 font-mono text-[10px] text-turquoise/90 bg-navy border border-navy-border rounded px-1.5 py-0.5"
-                >
-                    cta → /contacte
-                </motion.span>
+        );
+    if (id === "titol")
+        return (
+            <div className="w-full h-full rounded-lg bg-white/10 border border-white/15 px-2.5 py-1.5 space-y-1.5 overflow-hidden">
+                <span className="block h-2 w-3/4 rounded-full bg-white/35" />
+                <span className="block h-2 w-1/2 rounded-full bg-white/20" />
             </div>
+        );
+    if (id === "imatge")
+        return (
+            <div className="w-full h-full rounded-lg bg-turquoise/15 border border-turquoise/40 flex items-center justify-center gap-2">
+                <ImageIcon size={16} className="text-turquoise" />
+                <span className="font-mono text-[10px] text-turquoise">
+                    hero.jpg
+                </span>
+            </div>
+        );
+    return <div className="w-full h-full rounded-md bg-turquoise" />;
+};
 
-            <motion.div variants={wireItem} className="grid grid-cols-3 gap-3">
-                {[0, 1, 2].map((i) => (
+const Wireframe = ({ reduce }) => {
+    const [placed, setPlaced] = useState([]);
+    const [manual, setManual] = useState(false);
+    const canvasRef = useRef(null);
+    const done = placed.length === PIECE_ORDER.length;
+
+    useEffect(() => {
+        if (reduce) {
+            setPlaced(PIECE_ORDER);
+            return;
+        }
+        if (manual || done) return;
+        const id = setTimeout(
+            () =>
+                setPlaced((p) =>
+                    p.length < PIECE_ORDER.length
+                        ? [...p, PIECE_ORDER[p.length]]
+                        : p,
+                ),
+            placed.length === 0 ? 600 : 850,
+        );
+        return () => clearTimeout(id);
+    }, [placed, manual, reduce, done]);
+
+    const replay = () => {
+        if (manual || reduce) return;
+        setPlaced([]);
+    };
+
+    const toggleMode = () => {
+        setManual((m) => !m);
+        setPlaced([]);
+    };
+
+    const handleDrop = (id, info) => {
+        if (placed.includes(id)) return;
+        const rect = canvasRef.current?.getBoundingClientRect();
+        if (!rect) return;
+        const cx = rect.left + SLOTS[id].fx * rect.width;
+        const cy = rect.top + SLOTS[id].fy;
+        const dist = Math.hypot(info.point.x - cx, info.point.y - cy);
+        if (dist < 95) setPlaced((p) => [...p, id]);
+    };
+
+    const phase = done
+        ? PHASES[4]
+        : manual
+            ? "munta-la tu — arrossega els blocs"
+            : PHASES[placed.length];
+
+    return (
+        <div className="relative rounded-2xl border border-white/10 bg-navy-surface/70 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)] overflow-hidden">
+            <div className="flex items-center gap-2 px-4 h-10 border-b border-white/10">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+                <div className="flex-1 ml-3 flex items-center gap-2 font-mono text-[11px] text-white/60 bg-white/5 rounded-md px-3 py-1">
                     <span
-                        key={i}
-                        className="h-12 rounded-lg bg-white/5 border border-white/10"
+                        className={`w-1.5 h-1.5 rounded-full ${
+                            done ? "bg-emerald-400" : "bg-turquoise animate-pulse"
+                        }`}
                     />
+                    <AnimatePresence mode="wait">
+                        <motion.span
+                            key={done ? "done" : "building"}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        >
+                            {done
+                                ? "lateva-web.cat — publicada ✓"
+                                : "muntant-teva-web.cat…"}
+                        </motion.span>
+                    </AnimatePresence>
+                </div>
+            </div>
+
+            <div
+                ref={canvasRef}
+                data-testid="hero-demo-canvas"
+                className="relative h-[280px]"
+            >
+                {PIECE_ORDER.filter((id) => !placed.includes(id)).map((id) => (
+                    <div
+                        key={id}
+                        className="absolute rounded-lg border-2 border-dashed border-white/15 flex items-center justify-center"
+                        style={{ ...SLOTS[id].style, zIndex: 1 }}
+                    >
+                        <span className="font-mono text-[10px] text-white/25">
+                            {SLOTS[id].label}
+                        </span>
+                    </div>
                 ))}
-            </motion.div>
+                {PIECE_ORDER.filter((id) => placed.includes(id)).map((id) => (
+                    <motion.div
+                        key={id}
+                        data-testid={`hero-demo-placed-${id}`}
+                        className="absolute"
+                        style={{ ...SLOTS[id].style, zIndex: 2 }}
+                        initial={
+                            reduce
+                                ? { opacity: 1 }
+                                : { opacity: 0, x: 150, y: 110, scale: 0.8 }
+                        }
+                        animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                        transition={{ type: "spring", stiffness: 280, damping: 22 }}
+                    >
+                        <PieceVisual id={id} />
+                    </motion.div>
+                ))}
+                <motion.span
+                    animate={
+                        done
+                            ? { opacity: 1, scale: 1 }
+                            : { opacity: 0, scale: 0.8 }
+                    }
+                    className="absolute right-4 top-[246px] z-[3] font-mono text-[10px] text-emerald-300 bg-navy border border-emerald-400/30 rounded px-2 py-1"
+                >
+                    deploy ✓
+                </motion.span>
+            </div>
+
+            {manual && !done && (
+                <div className="flex items-center gap-2.5 px-5 pt-4 pb-1 border-t border-white/10 flex-wrap min-h-[52px]">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-white/40 mr-1">
+                        blocs:
+                    </span>
+                    {PIECE_ORDER.filter((id) => !placed.includes(id)).map((id) => (
+                        <motion.div
+                            key={id}
+                            data-testid={`hero-demo-piece-${id}`}
+                            drag
+                            dragSnapToOrigin
+                            dragMomentum={false}
+                            onDragEnd={(e, info) => handleDrop(id, info)}
+                            whileDrag={{ scale: 1.2 }}
+                            className="cursor-grab active:cursor-grabbing rounded-lg bg-white/10 border border-turquoise/50 text-turquoise font-mono text-[11px] px-3 py-1.5 z-30"
+                        >
+                            {SLOTS[id].label}
+                        </motion.div>
+                    ))}
+                </div>
+            )}
+
+            <div className="flex items-center justify-between px-5 py-3 gap-3">
+                <AnimatePresence mode="wait">
+                    <motion.span
+                        key={phase}
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        className="font-mono text-[10px] uppercase tracking-widest text-turquoise/80"
+                    >
+                        {phase}
+                    </motion.span>
+                </AnimatePresence>
+                <div className="flex items-center gap-2 shrink-0">
+                    {!manual && !reduce && (
+                        <button
+                            data-testid="hero-demo-replay"
+                            onClick={replay}
+                            className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-white/50 hover:text-turquoise transition-colors"
+                        >
+                            <RotateCcw size={11} />
+                            torna a muntar-la
+                        </button>
+                    )}
+                    <button
+                        data-testid="hero-demo-manual"
+                        onClick={toggleMode}
+                        className="flex items-center gap-1.5 rounded-md border border-turquoise/40 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-turquoise hover:bg-turquoise/10 transition-colors"
+                    >
+                        {manual ? "que la munti sola" : "munta-la tu"}
+                    </button>
+                </div>
+            </div>
+
+            <div className="h-[3px] bg-white/5">
+                <motion.div
+                    className="h-full bg-turquoise"
+                    animate={{
+                        width: reduce
+                            ? "100%"
+                            : `${(placed.length / PIECE_ORDER.length) * 100}%`,
+                    }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                />
+            </div>
         </div>
-    </motion.div>
-);
+    );
+};
 
 export const Hero = () => {
     const reduce = useReducedMotion();
