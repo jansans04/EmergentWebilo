@@ -1,6 +1,43 @@
-# Frontend
+# ---------- Dependències ----------
+node_modules/
 frontend/node_modules/
-frontend/dist/
 
-# Backend
-backend/.env
+# ---------- Entorn virtual de Python ----------
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# ---------- Variables d'entorn (secrets) ----------
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+
+# ---------- Builds ----------
+frontend/build/
+frontend/dist/
+build/
+dist/
+coverage/
+
+# ---------- Logs ----------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---------- Editors i sistema ----------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---------- Bases de dades locals ----------
+*.sqlite3
+*.db
