@@ -210,6 +210,7 @@ export const QUIZ_RATIONALE = {
 export const NAV_LINKS = [
     { id: "serveis", label: "Serveis" },
     { id: "demos", label: "Demos" },
+    { id: "projectes", label: "Projectes" },
     { id: "com-funciona", label: "Com funciona" },
     { id: "faq", label: "FAQ" },
 ];

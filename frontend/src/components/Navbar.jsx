@@ -5,8 +5,10 @@ import { NAV_LINKS, waLink } from "@/data/content";
 import { scrollToId } from "@/utils/scroll";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 export const Navbar = () => {
+    const { language, setLanguage, t } = useLanguage();
     const [overDark, setOverDark] = useState(true);
     const [open, setOpen] = useState(false);
     const { scrollYProgress } = useScroll();
@@ -80,12 +82,24 @@ export const Navbar = () => {
                                 onClick={() => go(l.id)}
                                 className="text-sm font-medium opacity-80 hover:opacity-100 hover:text-turquoise transition-colors"
                             >
-                                {l.label}
+                                {t(`nav.${l.id === "serveis" ? "services" : l.id === "com-funciona" ? "process" : l.id === "projectes" ? "projects" : l.id}`)}
                             </button>
                         ))}
                     </nav>
 
                     <div className="flex items-center gap-3">
+                        <div className="hidden sm:flex items-center rounded-lg border border-current/20 p-0.5" aria-label={t("languageLabel")}>
+                            {["ca", "es"].map((code) => (
+                                <button
+                                    key={code}
+                                    onClick={() => setLanguage(code)}
+                                    aria-pressed={language === code}
+                                    className={cn("rounded-md px-2 py-1 text-[11px] font-bold uppercase transition-colors", language === code ? "bg-turquoise text-navy" : "opacity-60 hover:opacity-100")}
+                                >
+                                    {code}
+                                </button>
+                            ))}
+                        </div>
                         <a
                             data-testid="navbar-whatsapp"
                             href={waLink("Hola Webilo! Vull parlar d'una web.")}
@@ -101,7 +115,7 @@ export const Navbar = () => {
                             onClick={() => go("contacte")}
                             className="hidden sm:flex items-center gap-2 rounded-lg bg-turquoise px-4 py-2 text-sm font-semibold text-navy hover:bg-turquoise-light active:scale-[0.98] transition-all"
                         >
-                            Contacta
+                            {t("nav.contact")}
                             <ArrowRight size={15} />
                         </button>
                         <button
@@ -150,17 +164,22 @@ export const Navbar = () => {
                                     onClick={() => go(l.id)}
                                     className="text-left font-display font-bold text-4xl py-3 border-b border-white/10 hover:text-turquoise transition-colors"
                                 >
-                                    {l.label}
+                                    {t(`nav.${l.id === "serveis" ? "services" : l.id === "com-funciona" ? "process" : l.id === "projectes" ? "projects" : l.id}`)}
                                 </motion.button>
                             ))}
                         </nav>
                         <div className="px-8 pb-10 flex flex-col gap-3">
+                            <div className="flex gap-2">
+                                {["ca", "es"].map((code) => (
+                                    <button key={code} onClick={() => setLanguage(code)} className={cn("rounded-lg border px-4 py-2 text-sm font-bold uppercase", language === code ? "border-turquoise bg-turquoise text-navy" : "border-white/25 text-white")}>{code}</button>
+                                ))}
+                            </div>
                             <button
                                 data-testid="navbar-mobile-cta-contact"
                                 onClick={() => go("contacte")}
                                 className="w-full h-14 rounded-xl bg-turquoise text-navy font-semibold text-lg flex items-center justify-center gap-2"
                             >
-                                Contacta
+                                {t("nav.contact")}
                                 <ArrowRight size={18} />
                             </button>
                             <a

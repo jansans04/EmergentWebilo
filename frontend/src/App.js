@@ -9,6 +9,7 @@ import Quiz from "@/components/Quiz";
 import FaqContact from "@/components/FaqContact";
 import Footer from "@/components/Footer";
 import WhatsAppFab from "@/components/WhatsAppFab";
+import ProjectShowcase from "@/components/ProjectShowcase";
 import MagneticCursor from "@/components/MagneticCursor";
 import { Toaster } from "@/components/ui/sonner";
 import { scrollToId } from "@/utils/scroll";
@@ -73,6 +74,7 @@ const Landing = () => {
             <main>
                 <Hero />
                 <SocialProof />
+                <ProjectShowcase />
                 <ServiceSwitcher onWant={handleWant} />
                 <Quiz onWant={handleWant} />
               <HowItWorks />

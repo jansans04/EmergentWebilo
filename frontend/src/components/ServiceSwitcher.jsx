@@ -5,6 +5,7 @@ import { SERVICES } from "@/data/content";
 import ServicePreview from "@/components/ServicePreview";
 import DemoModal from "@/components/DemoModal";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 const InfoPanel = ({ service, onWant }) => (
     <motion.div
@@ -128,6 +129,7 @@ const ServiceCard = ({ s, active, onSelect }) => (
 );
 
 export const ServiceSwitcher = ({ onWant }) => {
+    const { t } = useLanguage();
     const [activeId, setActiveId] = useState(SERVICES[0].id);
     const [demo, setDemo] = useState(null);
     const active = SERVICES.find((s) => s.id === activeId);
@@ -206,8 +208,7 @@ export const ServiceSwitcher = ({ onWant }) => {
 
                 <div className="mt-12 flex items-center gap-3 text-sm text-slateblue">
                     <AlertTriangle size={16} className="text-turquoise-dark shrink-0" />
-                    Les demos no són funcionals: són webs maquetades amb
-                    contingut d'exemple perquè vegis l'estil que sabem fer.
+                    {t("demoNote")} {t("demoDetail")}
                 </div>
             </div>
 

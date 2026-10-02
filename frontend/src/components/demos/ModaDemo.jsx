@@ -35,7 +35,7 @@ export const ModaDemo = () => {
                 return prev.map((it) =>
                     it.id === p.id ? { ...it, qty: it.qty + 1 } : it,
                 );
-            return [...prev, { id: p.id, name: p.name, price: p.price, qty: 1 }];
+            return [...prev, { id: p.id, name: p.name, img: p.img, price: p.price, qty: 1 }];
         });
         setBump((b) => b + 1);
         setJustAdded(p.id);
@@ -175,6 +175,17 @@ export const ModaDemo = () => {
             </div>
 
             <AnimatePresence>
+                {justAdded && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 12, scale: 0.96 }}
+                        className="fixed bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full bg-[#191919] px-4 py-2.5 text-sm font-semibold text-[#EFECE6] shadow-xl"
+                    >
+                        <Check size={15} className="text-[#B7D7C8]" />
+                        Producte afegit a la cistella
+                    </motion.div>
+                )}
                 {cartOpen && (
                     <>
                         <motion.div
@@ -244,11 +255,14 @@ export const ModaDemo = () => {
                                                 key={it.id}
                                                 className="flex items-center justify-between gap-3 border-b border-[#191919]/10 pb-4"
                                             >
-                                                <div>
-                                                    <p className="text-sm font-semibold">{it.name}</p>
+                                                <div className="flex min-w-0 items-center gap-3">
+                                                    <img src={it.img} alt="" className="h-12 w-10 shrink-0 rounded object-cover" />
+                                                    <div className="min-w-0">
+                                                        <p className="truncate text-sm font-semibold">{it.name}</p>
                                                     <p className="text-xs text-[#191919]/50">
                                                         {it.qty} × {it.price} €
                                                     </p>
+                                                    </div>
                                                 </div>
                                                 <div className="flex items-center gap-2">
                                                     <button
@@ -264,7 +278,8 @@ export const ModaDemo = () => {
                                                                     .filter((x) => x.qty > 0),
                                                             )
                                                         }
-                                                        className="w-7 h-7 rounded border border-[#191919]/25 text-sm leading-none hover:bg-[#191919]/5"
+                                                        aria-label="Reduir quantitat"
+                                                        className="flex h-7 w-7 items-center justify-center rounded border border-[#191919]/25 text-sm leading-none hover:bg-[#191919]/5"
                                                     >
                                                         −
                                                     </button>
@@ -274,7 +289,8 @@ export const ModaDemo = () => {
                                                     <button
                                                         data-testid="demo-moda-increase"
                                                         onClick={() => addToCart(PRODUCTS.find((p) => p.id === it.id))}
-                                                        className="w-7 h-7 rounded border border-[#191919]/25 text-sm leading-none hover:bg-[#191919]/5"
+                                                        aria-label="Augmentar quantitat"
+                                                        className="flex h-7 w-7 items-center justify-center rounded border border-[#191919]/25 text-sm leading-none hover:bg-[#191919]/5"
                                                     >
                                                         +
                                                     </button>

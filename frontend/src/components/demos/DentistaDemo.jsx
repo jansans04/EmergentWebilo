@@ -1,29 +1,42 @@
-import { CalendarCheck, Sparkles, Smile, Stethoscope } from "lucide-react";
+import { useState } from "react";
+import { CalendarCheck, ChevronDown, Sparkles, Smile, Stethoscope } from "lucide-react";
 import { IMAGES } from "@/data/content";
 
 const fakeLink = (e) => e.preventDefault();
 
-export const DentistaDemo = () => (
-    <div data-testid="demo-dentista" className="bg-white text-[#12314F]">
+export const DentistaDemo = () => {
+    const [pagesOpen, setPagesOpen] = useState(false);
+
+    return <div data-testid="demo-dentista" className="bg-white text-[#12314F]">
         <div className="flex items-center justify-between px-6 sm:px-10 py-5 border-b border-[#EBF3FA]">
-            <span className="font-display font-bold text-lg text-[#0F4C81]">
+            <a href="#dentista-inici" className="font-display font-bold text-lg text-[#0F4C81]">
                 Clínica Ramoneda
-            </span>
+            </a>
             <nav className="hidden sm:flex items-center gap-6 text-sm text-[#12314F]/70">
-                <a href="#" onClick={fakeLink} className="hover:text-[#0F4C81]">Tractaments</a>
-                <a href="#" onClick={fakeLink} className="hover:text-[#0F4C81]">Equip</a>
-                <a href="#" onClick={fakeLink} className="hover:text-[#0F4C81]">La clínica</a>
+                <a href="#dentista-tractaments" className="hover:text-[#0F4C81]">Tractaments</a>
+                <a href="#dentista-equip" className="hover:text-[#0F4C81]">Equip</a>
+                <div className="relative">
+                    <button onClick={() => setPagesOpen((open) => !open)} className="inline-flex items-center gap-1 hover:text-[#0F4C81]" aria-expanded={pagesOpen}>
+                        La clínica <ChevronDown size={14} className={`transition-transform ${pagesOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {pagesOpen && (
+                        <div className="absolute right-0 top-7 z-10 w-40 rounded-xl border border-[#EBF3FA] bg-white p-1.5 shadow-xl">
+                            {[["dentista-inici", "Inici"], ["dentista-tractaments", "Tractaments"], ["dentista-equip", "Equip"], ["dentista-contacte", "Contacte"]].map(([id, label]) => (
+                                <a key={id} href={`#${id}`} onClick={() => setPagesOpen(false)} className="block rounded-lg px-3 py-2 text-left text-xs hover:bg-[#EBF3FA] hover:text-[#0F4C81]">{label}</a>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </nav>
             <a
-                href="#"
-                onClick={fakeLink}
+                href="#dentista-contacte"
                 className="rounded-lg bg-[#0F4C81] text-white text-sm font-semibold px-4 py-2"
             >
                 Demana cita
             </a>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-10 items-center px-6 sm:px-10 py-14">
+        <div id="dentista-inici" className="scroll-mt-4 grid sm:grid-cols-2 gap-10 items-center px-6 sm:px-10 py-14">
             <div>
                 <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-[#0F4C81]/70">
                     Odontologia a Barcelona
@@ -37,15 +50,13 @@ export const DentistaDemo = () => (
                 </p>
                 <div className="mt-7 flex flex-wrap gap-3">
                     <a
-                        href="#"
-                        onClick={fakeLink}
+                        href="#dentista-contacte"
                         className="rounded-xl bg-[#0F4C81] text-white font-semibold px-6 py-3.5"
                     >
                         Primera visita gratuïta
                     </a>
                     <a
-                        href="#"
-                        onClick={fakeLink}
+                        href="#dentista-tractaments"
                         className="rounded-xl border border-[#0F4C81]/30 text-[#0F4C81] font-semibold px-6 py-3.5"
                     >
                         Veure tractaments
@@ -61,7 +72,7 @@ export const DentistaDemo = () => (
             </div>
         </div>
 
-        <div className="bg-[#EBF3FA] px-6 sm:px-10 py-14">
+        <div id="dentista-tractaments" className="scroll-mt-4 bg-[#EBF3FA] px-6 sm:px-10 py-14">
             <h2 className="font-display font-bold text-2xl sm:text-4xl text-[#0F2A47]">
                 Tractaments
             </h2>
@@ -83,7 +94,7 @@ export const DentistaDemo = () => (
             </div>
         </div>
 
-        <div className="px-6 sm:px-10 py-14 grid sm:grid-cols-2 gap-10 items-center">
+        <div id="dentista-equip" className="scroll-mt-4 px-6 sm:px-10 py-14 grid sm:grid-cols-2 gap-10 items-center">
             <div className="overflow-hidden rounded-2xl aspect-[4/3] order-2 sm:order-1">
                 <img
                     src={IMAGES.dentalInterior}
@@ -118,7 +129,7 @@ export const DentistaDemo = () => (
             </div>
         </div>
 
-        <div className="px-6 sm:px-10 pb-16">
+        <div id="dentista-contacte" className="scroll-mt-4 px-6 sm:px-10 pb-16">
             <div className="rounded-2xl bg-[#0F4C81] text-white p-8 sm:p-12 grid sm:grid-cols-2 gap-8 items-center">
                 <div>
                     <h2 className="font-display font-bold text-2xl sm:text-3xl">
@@ -150,7 +161,7 @@ export const DentistaDemo = () => (
                 © Clínica Dental Ramoneda — demo maquetada per Webilo
             </p>
         </div>
-    </div>
-);
+    </div>;
+};
 
 export default DentistaDemo;
