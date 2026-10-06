@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ShoppingBag, X } from "lucide-react";
 import { IMAGES } from "@/data/content";
+import { useLanguage } from "@/context/LanguageContext";
 
 const fakeLink = (e) => e.preventDefault();
 
@@ -19,6 +20,12 @@ const PRODUCTS = [
 ];
 
 export const ModaDemo = () => {
+    const { language } = useLanguage();
+    const copy = language === "es" ? {
+        shop: "Tienda", collections: "Colecciones", manifesto: "Manifiesto", cart: "Cesta", new: "Nuevo", add: "Añadir", added: "Añadido ✓", addedToast: "Producto añadido a la cesta", collection: "La colección", pieces: "12 piezas", organic: "Lino orgánico", local: "Producción local", workshops: "Talleres de barrio", basket: "Tu cesta", close: "Cerrar cesta", ordered: "¡Pedido recibido!", orderedCopy: "Esta es una demo: el pago no está conectado, pero ya puedes ver cómo quedaría tu proceso de compra.", continue: "Seguir comprando", empty: "La cesta está vacía.", emptyCopy: "Añade alguna pieza de la colección.", total: "Total", checkout: "Tramitar pedido", demoPayment: "Demo: el pago no está conectado", hero: "Vestir sencillo.", heroSecond: "Durar mucho.", intro: "Prendas de lino y algodón producidas en el Mediterráneo. Ediciones cortas, sin rotaciones.", marquee: ["Nueva colección", "Hecho en el Mediterráneo", "Ediciones limitadas", "Envío gratuito +80 €"], alt: "Modelo con americana negra amplia sobre fondo blanco",
+    } : {
+        shop: "Botiga", collections: "Col·leccions", manifesto: "Manifest", cart: "Cistella", new: "Nou", add: "Afegir", added: "Afegit ✓", addedToast: "Producte afegit a la cistella", collection: "La col·lecció", pieces: "12 peces", organic: "Lli orgànic", local: "Producció local", workshops: "Tallers de barri", basket: "La teva cistella", close: "Tancar cistella", ordered: "Comanda rebuda!", orderedCopy: "Aquesta és una demo: el pagament no està connectat, però ja veus com quedaria el teu procés de compra.", continue: "Seguir comprant", empty: "La cistella és buida.", emptyCopy: "Afegeix alguna peça de la col·lecció.", total: "Total", checkout: "Tramet la comanda", demoPayment: "Demo: el pagament no està connectat", hero: "Vestir senzill.", heroSecond: "Durar molt.", intro: "Peces de lli i cotó produïdes al Mediterrani. Edicions curtes, sense rotacions.", marquee: ["Nova col·lecció", "Fet al Mediterrani", "Edicions limitades", "Enviament gratuït +80 €"], alt: "Model amb americana negra ampla sobre fons blanc",
+    };
     const [items, setItems] = useState([]);
     const [cartOpen, setCartOpen] = useState(false);
     const [bump, setBump] = useState(0);
@@ -57,9 +64,9 @@ export const ModaDemo = () => {
                     NUA
                 </span>
                 <nav className="hidden sm:flex items-center gap-6 text-sm text-[#191919]/60">
-                    <a href="#" onClick={fakeLink} className="hover:text-[#191919]">Botiga</a>
-                    <a href="#" onClick={fakeLink} className="hover:text-[#191919]">Col·leccions</a>
-                    <a href="#" onClick={fakeLink} className="hover:text-[#191919]">Manifest</a>
+                    <a href="#" onClick={fakeLink} className="hover:text-[#191919]">{copy.shop}</a>
+                    <a href="#" onClick={fakeLink} className="hover:text-[#191919]">{copy.collections}</a>
+                    <a href="#" onClick={fakeLink} className="hover:text-[#191919]">{copy.manifesto}</a>
                 </nav>
                 <button
                     data-testid="demo-moda-cart"
@@ -75,25 +82,24 @@ export const ModaDemo = () => {
                     >
                         <ShoppingBag size={15} />
                     </motion.span>
-                    Cistella ({totalQty})
+                    {copy.cart} ({totalQty})
                 </button>
             </div>
 
             <div className="relative h-[440px] sm:h-[560px]">
                 <img
                     src={IMAGES.modaHero}
-                    alt="Model amb americana negra ampla sobre fons blanc"
+                    alt={copy.alt}
                     className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 pb-10">
                     <h1 className="font-display font-black text-6xl sm:text-8xl tracking-tight text-[#191919]">
-                        Vestir senzill.
+                        {copy.hero}
                         <br />
-                        Durar molt.
+                        {copy.heroSecond}
                     </h1>
                     <p className="mt-3 text-[#191919]/60 text-lg max-w-md">
-                        Peces de lli i cotó produïdes al Mediterrani. Edicions
-                        curtes, sense rotacions.
+                        {copy.intro}
                     </p>
                 </div>
             </div>
@@ -102,7 +108,7 @@ export const ModaDemo = () => {
                 <div className="flex w-max animate-marquee" style={{ animationDuration: "30s" }}>
                     {[0, 1].map((c) => (
                         <div key={c} aria-hidden={c === 1} className="flex shrink-0">
-                            {["Nova col·lecció", "Fet al Mediterrani", "Edicions limitades", "Enviament gratuït +80 €"].map(
+                            {copy.marquee.map(
                                 (t) => (
                                     <span
                                         key={`${c}-${t}`}
@@ -120,9 +126,9 @@ export const ModaDemo = () => {
             <div className="px-6 sm:px-10 py-14">
                 <div className="flex items-end justify-between">
                     <h2 className="font-display font-bold text-2xl sm:text-4xl">
-                        La col·lecció
+                        {copy.collection}
                     </h2>
-                    <span className="font-mono text-xs text-[#191919]/40">12 peces</span>
+                    <span className="font-mono text-xs text-[#191919]/40">{copy.pieces}</span>
                 </div>
                 <div className="mt-8 grid sm:grid-cols-3 gap-5">
                     {PRODUCTS.map((p) => (
@@ -140,7 +146,7 @@ export const ModaDemo = () => {
                                         {p.name}
                                         {p.tag && (
                                             <span className="ml-2 align-middle rounded bg-[#191919] text-[#EFECE6] text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5">
-                                                {p.tag}
+                                                {language === "es" ? copy.new : p.tag}
                                             </span>
                                         )}
                                     </p>
@@ -155,7 +161,7 @@ export const ModaDemo = () => {
                                             : "border border-[#191919]/25 hover:bg-[#191919] hover:text-[#EFECE6]"
                                     }`}
                                 >
-                                    {justAdded === p.id ? "Afegit ✓" : "Afegir"}
+                                    {justAdded === p.id ? copy.added : copy.add}
                                 </button>
                             </div>
                         </div>
@@ -165,9 +171,9 @@ export const ModaDemo = () => {
 
             <div className="border-t border-[#191919]/10 px-6 sm:px-10 py-12 flex flex-col sm:flex-row justify-between gap-6 text-sm">
                 <div className="flex gap-8 text-[#191919]/60">
-                    <span>Lli orgànic</span>
-                    <span>Producció local</span>
-                    <span>Tallers de barri</span>
+                    <span>{copy.organic}</span>
+                    <span>{copy.local}</span>
+                    <span>{copy.workshops}</span>
                 </div>
                 <p className="font-mono text-xs text-[#191919]/40">
                     © Atelier Nua — demo maquetada per Webilo
@@ -183,7 +189,7 @@ export const ModaDemo = () => {
                         className="fixed bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full bg-[#191919] px-4 py-2.5 text-sm font-semibold text-[#EFECE6] shadow-xl"
                     >
                         <Check size={15} className="text-[#B7D7C8]" />
-                        Producte afegit a la cistella
+                        {copy.addedToast}
                     </motion.div>
                 )}
                 {cartOpen && (
@@ -203,11 +209,11 @@ export const ModaDemo = () => {
                             className="fixed top-0 right-0 bottom-0 z-20 w-[88%] max-w-sm bg-[#EFECE6] border-l border-[#191919]/10 p-6 flex flex-col"
                         >
                             <div className="flex items-center justify-between">
-                                <p className="font-display font-bold text-xl">La teva cistella</p>
+                                <p className="font-display font-bold text-xl">{copy.basket}</p>
                                 <button
                                     data-testid="demo-moda-close-cart"
                                     onClick={() => setCartOpen(false)}
-                                    aria-label="Tancar cistella"
+                                    aria-label={copy.close}
                                     className="flex items-center justify-center w-9 h-9 rounded-lg border border-[#191919]/20 hover:bg-[#191919]/5"
                                 >
                                     <X size={16} />
@@ -220,12 +226,10 @@ export const ModaDemo = () => {
                                         <Check size={24} />
                                     </span>
                                     <p className="font-display font-bold text-xl">
-                                        Comanda rebuda!
+                                        {copy.ordered}
                                     </p>
                                     <p className="text-sm text-[#191919]/60">
-                                        Aquesta és una demo: el pagament no està
-                                        connectat, però ja veus com quedaria el
-                                        teu procés de compra.
+                                        {copy.orderedCopy}
                                     </p>
                                     <button
                                         data-testid="demo-moda-continue"
@@ -235,16 +239,16 @@ export const ModaDemo = () => {
                                         }}
                                         className="mt-2 rounded-lg bg-[#191919] text-[#EFECE6] text-sm font-semibold px-5 py-3"
                                     >
-                                        Seguir comprant
+                                        {copy.continue}
                                     </button>
                                 </div>
                             ) : items.length === 0 ? (
                                 <div className="flex-1 flex flex-col items-center justify-center text-center gap-2">
                                     <ShoppingBag size={26} className="text-[#191919]/30" />
                                     <p className="text-sm text-[#191919]/60">
-                                        La cistella és buida.
+                                        {copy.empty}
                                         <br />
-                                        Afegeix alguna peça de la col·lecció.
+                                        {copy.emptyCopy}
                                     </p>
                                 </div>
                             ) : (
@@ -300,7 +304,7 @@ export const ModaDemo = () => {
                                     </ul>
                                     <div className="pt-4 border-t border-[#191919]/10">
                                         <div className="flex justify-between text-sm font-semibold">
-                                            <span>Total</span>
+                                            <span>{copy.total}</span>
                                             <span data-testid="demo-moda-total">{total} €</span>
                                         </div>
                                         <button
@@ -308,10 +312,10 @@ export const ModaDemo = () => {
                                             onClick={() => setOrdered(true)}
                                             className="mt-4 w-full h-12 rounded-xl bg-[#191919] text-[#EFECE6] font-semibold hover:opacity-90 active:scale-[0.99] transition-all"
                                         >
-                                            Tramet la comanda
+                                            {copy.checkout}
                                         </button>
                                         <p className="mt-2.5 text-center font-mono text-[10px] text-[#191919]/40">
-                                            Demo: el pagament no està connectat
+                                            {copy.demoPayment}
                                         </p>
                                     </div>
                                 </>

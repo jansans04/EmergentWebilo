@@ -10,6 +10,7 @@ import { ArrowDown, ImageIcon, RotateCcw } from "lucide-react";
 import { waLink } from "@/data/content";
 import { scrollToId } from "@/utils/scroll";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { useLanguage } from "@/context/LanguageContext";
 
 const LINES = ["Dissenyem webs", "que fan feina,", "no només boniques."];
 
@@ -42,14 +43,6 @@ const SLOTS = {
     },
 };
 
-const PHASES = [
-    "muntant l'estructura…",
-    "afegint el contingut…",
-    "posant-hi imatges…",
-    "últims detalls…",
-    "publicada ✓",
-];
-
 const PieceVisual = ({ id }) => {
     if (id === "nav")
         return (
@@ -80,6 +73,8 @@ const PieceVisual = ({ id }) => {
 };
 
 const Wireframe = ({ reduce }) => {
+    const { t } = useLanguage();
+    const phases = [t("demo.build"), t("demo.content"), t("demo.images"), t("demo.details"), t("demo.published")];
     const [placed, setPlaced] = useState([]);
     const [manual, setManual] = useState(false);
     const canvasRef = useRef(null);
@@ -124,10 +119,10 @@ const Wireframe = ({ reduce }) => {
     };
 
     const phase = done
-        ? PHASES[4]
+        ? phases[4]
         : manual
-            ? "munta-la tu — arrossega els blocs"
-            : PHASES[placed.length];
+            ? `${t("demo.manual")} — ${t("demo.content")}`
+            : phases[placed.length];
 
     return (
         <div className="relative rounded-2xl border border-white/10 bg-navy-surface/70 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)] overflow-hidden">
@@ -148,9 +143,7 @@ const Wireframe = ({ reduce }) => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                         >
-                            {done
-                                ? "lateva-web.cat — publicada ✓"
-                                : "muntant-teva-web.cat…"}
+                            {done ? `lateva-web.cat — ${phases[4]}` : "muntant-teva-web.cat…"}
                         </motion.span>
                     </AnimatePresence>
                 </div>
@@ -243,7 +236,7 @@ const Wireframe = ({ reduce }) => {
                             className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-white/50 hover:text-turquoise transition-colors"
                         >
                             <RotateCcw size={11} />
-                            torna a muntar-la
+                            {t("demo.replay")}
                         </button>
                     )}
                     <button
@@ -251,7 +244,7 @@ const Wireframe = ({ reduce }) => {
                         onClick={toggleMode}
                         className="flex items-center gap-1.5 rounded-md border border-turquoise/40 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-turquoise hover:bg-turquoise/10 transition-colors"
                     >
-                        {manual ? "que la munti sola" : "munta-la tu"}
+                        {manual ? t("demo.automatic") : t("demo.manual")}
                     </button>
                 </div>
             </div>
@@ -272,6 +265,8 @@ const Wireframe = ({ reduce }) => {
 };
 
 export const Hero = () => {
+    const { t } = useLanguage();
+    const lines = t("hero.lines");
     const reduce = useReducedMotion();
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
@@ -319,14 +314,14 @@ export const Hero = () => {
                             <span className="absolute inline-flex w-full h-full rounded-full bg-turquoise opacity-60 animate-ping" />
                             <span className="relative inline-flex w-2 h-2 rounded-full bg-turquoise" />
                         </span>
-                        Disponibilitat per a nous projectes — 2 places aquest mes
+                        {t("hero.availability")}
                     </motion.div>
 
                     <h1
                         data-testid="hero-headline"
                         className="mt-7 font-display font-bold tracking-[-0.02em] leading-[1.02] text-[clamp(2.7rem,6.4vw,5.7rem)]"
                     >
-                        {LINES.map((line, i) => (
+                        {lines.map((line, i) => (
                             <span key={line} className="block overflow-hidden pb-1">
                                 <motion.span
                                     className={`block ${i === 1 ? "text-turquoise" : ""}`}
@@ -350,10 +345,9 @@ export const Hero = () => {
                         transition={{ duration: 0.6, delay: 0.65 }}
                         className="mt-7 max-w-xl text-lg sm:text-xl leading-relaxed text-mist"
                     >
-                        Webilo és un estudi petit on cada web es fa a mà:
-                        aparadors, webs professionals i botigues en línia.{" "}
+                        {t("hero.description")} {" "}
                         <span className="text-white">
-                            Aquesta pàgina que estàs veient? També és nostra.
+                            {t("hero.emphasis")}
                         </span>
                     </motion.p>
 
@@ -368,7 +362,7 @@ export const Hero = () => {
                             onClick={() => scrollToId("serveis")}
                             className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-turquoise px-7 h-14 font-semibold text-navy hover:bg-turquoise-light active:scale-[0.98] transition-all"
                         >
-                            Veure serveis
+                            {t("hero.services")}
                             <ArrowDown
                                 size={18}
                                 className="transition-transform group-hover:translate-y-0.5"
@@ -382,7 +376,7 @@ export const Hero = () => {
                             className="inline-flex items-center justify-center gap-2.5 rounded-xl border border-white/25 px-7 h-14 font-semibold hover:bg-white/5 hover:border-white/40 active:scale-[0.98] transition-all"
                         >
                             <WhatsAppIcon size={18} />
-                            Parlem per WhatsApp
+                            {t("hero.whatsapp")}
                         </a>
                     </motion.div>
 
@@ -392,7 +386,7 @@ export const Hero = () => {
                         transition={{ duration: 0.6, delay: 1 }}
                         className="mt-7 font-mono text-[11px] tracking-wider uppercase text-white/40"
                     >
-                        Resposta en &lt; 24 h · Barcelona &amp; Girona · Sense compromís
+                        {t("hero.response")}
                     </motion.p>
                 </div>
 
@@ -408,7 +402,7 @@ export const Hero = () => {
                 className="relative mx-auto max-w-7xl w-full px-5 sm:px-8 pb-8 flex items-center gap-3 text-white/40"
             >
                 <span className="font-mono text-[11px] uppercase tracking-widest">
-                    scroll
+                    {t("hero.scroll")}
                 </span>
                 <span className="block h-px w-16 bg-white/25" />
             </motion.div>

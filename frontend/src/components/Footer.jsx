@@ -2,8 +2,17 @@ import { Mail, MapPin } from "lucide-react";
 import { EMAIL, NAV_LINKS, waLink } from "@/data/content";
 import { scrollToId } from "@/utils/scroll";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { useLanguage } from "@/context/LanguageContext";
 
-export const Footer = () => (
+export const Footer = () => {
+    const { t } = useLanguage();
+    const labels = {
+        serveis: t("nav.services"),
+        demos: t("nav.demos"),
+        projectes: t("nav.projects"),
+        "com-funciona": t("nav.process"),
+    };
+    return (
     <footer
         data-testid="main-footer"
         className="bg-ink text-white pt-16 pb-10 border-t border-white/10"
@@ -16,13 +25,12 @@ export const Footer = () => (
                         <span className="w-2 h-2 rounded-full bg-turquoise inline-block" />
                     </p>
                     <p className="mt-4 text-mist leading-relaxed max-w-xs">
-                        L'estudi de disseny i desenvolupament web per a qui
-                        valora els detalls i els resultats.
+                        {t("footer.description")}
                     </p>
                 </div>
                 <div>
                     <p className="font-mono text-[11px] uppercase tracking-widest text-white/40">
-                        Navega
+                        {t("footer.navigate")}
                     </p>
                     <ul className="mt-4 space-y-2.5">
                         {NAV_LINKS.map((l) => (
@@ -32,7 +40,7 @@ export const Footer = () => (
                                     onClick={() => scrollToId(l.id)}
                                     className="text-sm text-mist hover:text-turquoise transition-colors"
                                 >
-                                    {l.label}
+                                    {labels[l.id] || l.label}
                                 </button>
                             </li>
                         ))}
@@ -42,7 +50,7 @@ export const Footer = () => (
                                 onClick={() => scrollToId("contacte")}
                                 className="text-sm text-mist hover:text-turquoise transition-colors"
                             >
-                                Contacte
+                                {t("footer.contact")}
                             </button>
                         </li>
                     </ul>
@@ -64,7 +72,7 @@ export const Footer = () => (
                         </li>
                         <li className="flex items-center gap-2.5">
                             <MapPin size={15} className="text-turquoise" />
-                            Barcelona &amp; Girona
+                            {t("footer.location")}
                         </li>
                         <li>
                             <a
@@ -75,18 +83,19 @@ export const Footer = () => (
                                 className="flex items-center gap-2.5 hover:text-turquoise transition-colors"
                             >
                                 <WhatsAppIcon size={15} className="text-turquoise" />
-                                WhatsApp directe
+                                {t("footer.directWhatsapp")}
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-3 text-xs text-white/40">
-                <p>© Webilo — [s'ha d'afegir: dades legals i registre]</p>
-                <p className="font-mono">Fet a Catalunya amb React, FastAPI i molt de cafè.</p>
+                <p>{t("footer.legal")}</p>
+                <p className="font-mono">{t("footer.made")}</p>
             </div>
         </div>
     </footer>
-);
+    );
+};
 
 export default Footer;

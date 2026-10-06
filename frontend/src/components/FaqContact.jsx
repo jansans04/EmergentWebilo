@@ -7,6 +7,7 @@ import { FAQS, SERVICES, waLink } from "@/data/content";
 import Reveal from "@/components/Reveal";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -14,6 +15,8 @@ const inputCls =
     "w-full h-12 rounded-xl border border-slate-300 bg-white px-4 text-navy placeholder:text-slateblue/50 outline-none transition-all focus:border-turquoise focus:ring-2 focus:ring-turquoise/25";
 
 export const FaqContact = ({ preselectedService }) => {
+    const { t } = useLanguage();
+    const faqItems = t("faq.items");
     const [openFaq, setOpenFaq] = useState(0);
     const [form, setForm] = useState({
         nom: "",
@@ -48,7 +51,7 @@ export const FaqContact = ({ preselectedService }) => {
             });
             toast.success(
                 res.data?.message ||
-                    "Missatge rebut! Et contestem en menys de 24 hores.",
+                    t("contact.response"),
             );
             setForm({
                 nom: "",
@@ -61,7 +64,7 @@ export const FaqContact = ({ preselectedService }) => {
         } catch (err) {
             toast.error(
                 err?.response?.status === 422
-                    ? "Revisa els camps: nom, email i missatge són obligatoris."
+                    ? `${t("contact.name")} ${t("contact.email")} ${t("contact.message")}`
                     : "No s'ha pogut enviar. Prova de nou o escriu-nos per WhatsApp.",
             );
         } finally {
@@ -78,24 +81,24 @@ export const FaqContact = ({ preselectedService }) => {
             <div className="mx-auto max-w-7xl px-5 sm:px-8 grid lg:grid-cols-2 gap-14 lg:gap-20 items-start">
                 <div>
                     <p className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.25em] text-turquoise-dark">
-                        Preguntes freqüents
+                        {t("contact.faqEyebrow")}
                     </p>
                     <h2 className="mt-4 font-display font-bold tracking-tight text-[clamp(2rem,4.6vw,3.2rem)] leading-[1.06] text-navy">
-                        Les preguntes de sempre, respostes sense embuts.
+                        {t("contact.faqTitle")}
                     </h2>
                     <div
                         data-testid="faq-accordion"
                         className="mt-10 border-t border-slate-200"
                     >
-                        {FAQS.map((f, i) => (
-                            <div key={f.q} className="border-b border-slate-200">
+                        {faqItems.map(([question, answer], i) => (
+                            <div key={question} className="border-b border-slate-200">
                                 <button
                                     data-testid={`faq-item-button-${i}`}
                                     onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
                                     className="w-full flex justify-between items-center py-5 text-left gap-4"
                                 >
                                     <span className="font-display font-semibold text-navy text-lg">
-                                        {f.q}
+                                        {question}
                                     </span>
                                     <Plus
                                         size={19}
@@ -115,7 +118,7 @@ export const FaqContact = ({ preselectedService }) => {
                                             className="overflow-hidden"
                                         >
                                             <p className="pb-5 text-slateblue leading-relaxed">
-                                                {f.a}
+                                                {answer}
                                             </p>
                                         </motion.div>
                                     )}
@@ -133,16 +136,16 @@ export const FaqContact = ({ preselectedService }) => {
                             className="rounded-2xl bg-white border border-slate-200 shadow-soft p-6 sm:p-9"
                         >
                             <h3 className="font-display font-bold text-2xl tracking-tight text-navy">
-                                Explica'ns el teu projecte
+                                {t("contact.formTitle")}
                             </h3>
                             <p className="mt-1.5 text-sm text-slateblue">
-                                Et contestem en menys de 24 hores laborables.
+                                {t("contact.response")}
                             </p>
 
                             <div className="mt-7 grid sm:grid-cols-2 gap-4">
                                 <div>
                                     <label htmlFor="cf-nom" className="block text-sm font-medium text-navy mb-1.5">
-                                        Nom i cognoms *
+                                        {t("contact.name")}
                                     </label>
                                     <input
                                         id="cf-nom"
@@ -157,7 +160,7 @@ export const FaqContact = ({ preselectedService }) => {
                                 </div>
                                 <div>
                                     <label htmlFor="cf-email" className="block text-sm font-medium text-navy mb-1.5">
-                                        Email *
+                                        {t("contact.email")}
                                     </label>
                                     <input
                                         id="cf-email"
@@ -172,7 +175,7 @@ export const FaqContact = ({ preselectedService }) => {
                                 </div>
                                 <div>
                                     <label htmlFor="cf-tel" className="block text-sm font-medium text-navy mb-1.5">
-                                        Telèfon o WhatsApp
+                                        {t("contact.phone")}
                                     </label>
                                     <input
                                         id="cf-tel"
@@ -186,7 +189,8 @@ export const FaqContact = ({ preselectedService }) => {
                                 </div>
                                 <div>
                                     <label htmlFor="cf-servei" className="block text-sm font-medium text-navy mb-1.5">
-                                        Servei que t'interessa                                    </label>
+                                        {t("contact.service")}
+                                    </label>
                                     <select
                                         id="cf-servei"
                                         data-testid="contact-select-service"
@@ -194,26 +198,26 @@ export const FaqContact = ({ preselectedService }) => {
                                         onChange={set("servei")}
                                         className={cn(inputCls, "appearance-none bg-white")}
                                     >
-                                        <option value="">Encara no ho sé</option>
+                                        <option value="">{t("contact.unknown")}</option>
                                         {SERVICES.map((s) => (
                                             <option key={s.id} value={s.id}>
                                                 {s.name}
                                             </option>
                                         ))}
-                                        <option value="altre">Altre / no ho tinc clar</option>
+                                        <option value="altre">{t("contact.other")}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div className="mt-4">
                                 <span className="block text-sm font-medium text-navy mb-2">
-                                    Quan ho necessites?
+                                    {t("contact.urgency")}
                                 </span>
                                 <div className="flex flex-wrap gap-2">
                                     {[
-                                        ["immediata", "Com més aviat millor"],
-                                        ["2_setmanes", "En 2-3 setmanes"],
-                                        ["planificant", "Estic planejant"],
+                                        ["immediata", t("contact.soon")],
+                                        ["2_setmanes", t("contact.weeks")],
+                                        ["planificant", t("contact.planning")],
                                     ].map(([val, label]) => (
                                         <button
                                             key={val}
@@ -235,7 +239,7 @@ export const FaqContact = ({ preselectedService }) => {
 
                             <div className="mt-4">
                                 <label htmlFor="cf-msg" className="block text-sm font-medium text-navy mb-1.5">
-                                    El teu projecte, en dues línies *
+                                    {t("contact.message")}
                                 </label>
                                 <textarea
                                     id="cf-msg"
@@ -259,11 +263,11 @@ export const FaqContact = ({ preselectedService }) => {
                                 {sending ? (
                                     <>
                                         <Loader2 size={19} className="animate-spin" />
-                                        Enviant…
+                                        {t("contact.sending")}
                                     </>
                                 ) : (
                                     <>
-                                        Envia la consulta
+                                        {t("contact.submit")}
                                         <Send size={18} />
                                     </>
                                 )}
@@ -272,7 +276,7 @@ export const FaqContact = ({ preselectedService }) => {
                             <div className="mt-6 flex items-center gap-4">
                                 <span className="h-px flex-1 bg-slate-200" />
                                 <span className="text-xs font-mono uppercase tracking-widest text-slateblue/60">
-                                    o si ho tens clar
+                                    {t("contact.or")}
                                 </span>
                                 <span className="h-px flex-1 bg-slate-200" />
                             </div>
@@ -287,7 +291,7 @@ export const FaqContact = ({ preselectedService }) => {
                                 className="mt-5 w-full h-14 rounded-xl bg-wa text-white font-semibold flex items-center justify-center gap-2.5 hover:brightness-110 active:scale-[0.99] transition-all"
                             >
                                 <WhatsAppIcon size={19} />
-                                Escriu-nos per WhatsApp
+                                {t("contact.whatsapp")}
                             </a>
                             <p className="mt-3 text-center text-xs text-slateblue/70 font-mono">
                                 [s'ha d'afegir] número provisional — contestem en horari laborable

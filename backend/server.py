@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, BackgroundTasks
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -8,6 +8,8 @@ from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr, ConfigDict
 from typing import List
 import uuid
+import smtplib
+from email.message import EmailMessage
 from datetime import datetime, timezone
 
 
@@ -72,9 +74,10 @@ async def get_status_checks():
 
 
 @api_router.post("/contacte")
-async def create_contacte(input: ContactCreate):
+async def create_contacte(input: ContactCreate, background_tasks: BackgroundTasks):
     doc = {**input.model_dump(), "created_at": datetime.now(timezone.utc).isoformat()}
     result = await db.contact_requests.insert_one(doc)
+    background_tasks.add_task(send_contact_email, doc)
     return {
         "success": True,
         "id": str(result.inserted_id),
@@ -99,6 +102,40 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+
+def send_contact_email(doc):
+    smtp_host = os.environ.get("SMTP_HOST")
+    smtp_user = os.environ.get("SMTP_USER")
+    smtp_password = os.environ.get("SMTP_PASSWORD")
+    contact_email = os.environ.get("CONTACT_EMAIL", "hola@webilo.cat")
+    if not all((smtp_host, smtp_user, smtp_password)):
+        logger.warning("Contact saved but email delivery is not configured")
+        return
+
+    message = EmailMessage()
+    message["Subject"] = f"Nova consulta Webilo: {doc['nom']}"
+    message["From"] = os.environ.get("SMTP_FROM", smtp_user)
+    message["To"] = contact_email
+    message["Reply-To"] = doc["email"]
+    message.set_content(
+        "Nova consulta rebuda des de la web Webilo\n\n"
+        f"Nom: {doc['nom']}\n"
+        f"Email: {doc['email']}\n"
+        f"Telefon: {doc['telefon'] or 'No indicat'}\n"
+        f"Servei: {doc['servei']}\n"
+        f"Urgencia: {doc['urgencia']}\n\n"
+        f"Missatge:\n{doc['missatge']}\n"
+    )
+
+    try:
+        with smtplib.SMTP(smtp_host, int(os.environ.get("SMTP_PORT", "587")), timeout=15) as smtp:
+            smtp.starttls()
+            smtp.login(smtp_user, smtp_password)
+            smtp.send_message(message)
+        logger.info("Contact email sent to %s", contact_email)
+    except Exception:
+        logger.exception("Contact saved but email delivery failed")
 
 
 @app.on_event("shutdown")

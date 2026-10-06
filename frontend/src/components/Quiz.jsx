@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ChevronDown, HelpCircle, RotateCcw } from "lucide-react";
 import { QUIZ, QUIZ_RATIONALE, SERVICES } from "@/data/content";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 const PRIORITY = ["professional", "botiga", "aparador"];
 
@@ -20,10 +21,21 @@ const scoreAnswers = (answers) => {
 };
 
 export const Quiz = ({ onWant }) => {
+    const { language, t } = useLanguage();
+    const quiz = language === "es" ? [
+        { q: "¿A qué te dedicas, a grandes rasgos?", options: ["Soy autónomo o tengo un pequeño taller", "Ofrezco servicios profesionales (clínica, despacho, ingeniería…)", "Vendo productos físicos", "Es una marca personal o un proyecto nuevo"] },
+        { q: "¿Qué quieres que haga la web?", options: ["Que me encuentren en Google y me llamen", "Captar clientes y recibir reservas o presupuestos", "Vender productos con pago online", "Renovar una web que ya se ha quedado vieja"] },
+        { q: "¿Cuándo la necesitas?", options: ["Cuanto antes, mejor", "En un par de semanas estaría bien", "Todavía lo estoy planificando con calma"] },
+    ] : QUIZ.map((item) => ({ q: item.q, options: item.options.map((option) => option.label) }));
+    const rationale = language === "es" ? {
+        aparador: "Necesitas una presencia sólida y rápida: que te encuentren, te llamen y confíen en ti. Un escaparate bien hecho lo resuelve.",
+        professional: "Tu objetivo es captar clientes cualificados y transmitir autoridad: una web profesional con contenidos bien pensados es la herramienta.",
+        botiga: "Vendes producto: necesitas una tienda que convierta visitas en pedidos, con pago seguro y sin comisiones añadidas.",
+    } : QUIZ_RATIONALE;
     const [open, setOpen] = useState(false);
     const [step, setStep] = useState(0);
     const [answers, setAnswers] = useState({});
-    const done = step >= QUIZ.length;
+    const done = step >= quiz.length;
     const resultId = useMemo(() => (done ? scoreAnswers(answers) : null), [done, answers]);
     const result = SERVICES.find((s) => s.id === resultId);
 
@@ -52,11 +64,11 @@ export const Quiz = ({ onWant }) => {
                             <HelpCircle size={22} />
                         </span>
                         <div>
-                            <h2 className="font-display font-bold text-2xl tracking-tight text-navy">
-                                No saps què necessites?
+                                <h2 className="font-display font-bold text-2xl tracking-tight text-navy">
+                                {t("quiz.title")}
                             </h2>
                             <p className="text-sm text-slateblue mt-0.5">
-                                Tres preguntes, trenta segons, cap registre.
+                                {t("quiz.subtitle")}
                             </p>
                         </div>
                     </div>
@@ -83,10 +95,10 @@ export const Quiz = ({ onWant }) => {
                                 {!done ? (
                                     <div>
                                         <p className="font-mono text-[11px] uppercase tracking-widest text-turquoise-dark">
-                                            Pregunta {step + 1} / {QUIZ.length}
+                                            {t("quiz.question")} {step + 1} / {quiz.length}
                                         </p>
                                         <div className="mt-3 flex gap-1.5">
-                                            {QUIZ.map((_, i) => (
+                                            {quiz.map((_, i) => (
                                                 <span
                                                     key={i}
                                                     className={cn(
@@ -97,17 +109,17 @@ export const Quiz = ({ onWant }) => {
                                             ))}
                                         </div>
                                         <h3 className="mt-6 font-display font-bold text-2xl text-navy">
-                                            {QUIZ[step].q}
+                                            {quiz[step].q}
                                         </h3>
                                         <div className="mt-5 grid sm:grid-cols-2 gap-3">
-                                            {QUIZ[step].options.map((opt, i) => (
+                                            {quiz[step].options.map((label, i) => (
                                                 <button
-                                                    key={opt.label}
+                                                    key={label}
                                                     data-testid={`quiz-option-${step}-${i}`}
                                                     onClick={() => pick(i)}
                                                     className="rounded-xl border border-slate-200 p-4 text-left text-sm font-medium text-navy hover:border-turquoise hover:bg-turquoise-tint active:scale-[0.99] transition-all"
                                                 >
-                                                    {opt.label}
+                                                    {label}
                                                 </button>
                                             ))}
                                         </div>
@@ -118,7 +130,7 @@ export const Quiz = ({ onWant }) => {
                                                 className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-slateblue hover:text-navy"
                                             >
                                                 <ArrowLeft size={15} />
-                                                Pregunta anterior
+                                                {t("quiz.previous")}
                                             </button>
                                         )}
                                     </div>
@@ -130,13 +142,13 @@ export const Quiz = ({ onWant }) => {
                                         className="rounded-2xl bg-navy text-white p-8 sm:p-10"
                                     >
                                         <p className="font-mono text-[11px] uppercase tracking-widest text-turquoise-light">
-                                            El teu resultat
+                                            {t("quiz.result")}
                                         </p>
                                         <h3 className="mt-3 font-display font-bold text-3xl text-turquoise-light">
                                             {result.name}
                                         </h3>
                                         <p className="mt-4 text-mist leading-relaxed max-w-2xl">
-                                            {QUIZ_RATIONALE[resultId]}
+                                            {rationale[resultId]}
                                         </p>
                                         <p className="mt-4 font-mono text-xs text-white/50">
                                             Des de {result.price} € · entrega en {result.timeframe}
@@ -147,7 +159,7 @@ export const Quiz = ({ onWant }) => {
                                                 onClick={() => onWant(resultId)}
                                                 className="rounded-xl bg-turquoise text-navy font-semibold px-6 py-3.5 hover:bg-turquoise-light active:scale-[0.98] transition-all"
                                             >
-                                                Demana pressupost
+                                                {t("quiz.quote")}
                                             </button>
                                             <button
                                                 data-testid="quiz-restart-button"
@@ -155,7 +167,7 @@ export const Quiz = ({ onWant }) => {
                                                 className="inline-flex items-center gap-2 rounded-xl border border-white/25 font-semibold px-6 py-3.5 hover:bg-white/5 transition-all"
                                             >
                                                 <RotateCcw size={15} />
-                                                Torna a començar
+                                                {t("quiz.restart")}
                                             </button>
                                         </div>
                                     </motion.div>

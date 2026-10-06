@@ -5,6 +5,7 @@ import { waLink } from "@/data/content";
 import { scrollToId } from "@/utils/scroll";
 import Reveal from "@/components/Reveal";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { useLanguage } from "@/context/LanguageContext";
 
 const STEPS = [
     {
@@ -76,7 +77,12 @@ const WHY = [
     },
 ];
 
-export const HowItWorks = () => (
+export const HowItWorks = () => {
+    const { t } = useLanguage();
+    const steps = t("how.steps");
+    const stats = t("how.stats");
+    const why = t("how.why");
+    return (
     <section
         id="com-funciona"
         data-testid="how-it-works-section"
@@ -85,56 +91,62 @@ export const HowItWorks = () => (
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div className="max-w-3xl">
                 <p className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.25em] text-turquoise-light">
-                    Com funciona
+                    {t("how.eyebrow")}
                 </p>
                 <h2 className="mt-4 font-display font-bold tracking-tight text-[clamp(2rem,4.6vw,3.5rem)] leading-[1.06]">
-                    Del primer cafè al llançament en quatre passes.
+                    {t("how.title")}
                 </h2>
             </div>
 
             <div className="mt-14">
-                {STEPS.map((s, i) => (
-                    <Reveal key={s.n} delay={i * 0.05}>
+                {steps.map(([title, copy], i) => {
+                    const number = String(i + 1).padStart(2, "0");
+                    return (
+                    <Reveal key={number} delay={i * 0.05}>
                         <div
-                            data-testid={`step-card-${s.n}`}
+                            data-testid={`step-card-${number}`}
                             className="grid md:grid-cols-[140px_minmax(0,1fr)_minmax(0,1.4fr)] gap-4 md:gap-10 items-start border-t border-white/10 py-9"
                         >
                             <span className="ghost-number font-display font-black text-6xl md:text-7xl leading-none">
-                                {s.n}
+                                {number}
                             </span>
                             <h3 className="font-display font-bold text-2xl tracking-tight">
-                                {s.title}
+                                {title}
                             </h3>
-                            <p className="text-mist leading-relaxed">{s.copy}</p>
+                            <p className="text-mist leading-relaxed">{copy}</p>
                         </div>
                     </Reveal>
-                ))}
+                    );
+                })}
             </div>
 
             <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/10 pt-12">
-                {STATS.map((s, i) => (
-                    <Reveal key={s.label} delay={i * 0.06}>
+                {stats.map((label, i) => (
+                    <Reveal key={label} delay={i * 0.06}>
                         <div data-testid={`stat-counter-${i}`}>
                             <p className="font-display font-bold text-4xl sm:text-5xl text-turquoise-light tracking-tight">
-                                {s.value}
+                                {STATS[i].value}
                             </p>
-                            <p className="mt-2 text-sm text-mist">{s.label}</p>
+                            <p className="mt-2 text-sm text-mist">{label}</p>
                         </div>
                     </Reveal>
                 ))}
             </div>
 
             <div className="mt-14 grid sm:grid-cols-3 gap-6">
-                {WHY.map((w, i) => (
-                    <Reveal key={w.text} delay={i * 0.06}>
-                        <div className="rounded-2xl border border-white/10 bg-navy-surface/50 p-6 h-full">
-                            <w.icon size={22} className="text-turquoise" />
-                            <p className="mt-4 text-sm leading-relaxed text-mist">
-                                {w.text}
-                            </p>
-                        </div>
-                    </Reveal>
-                ))}
+                {why.map((text, i) => {
+                    const Icon = [MessagesSquare, Wallet, KeyRound][i];
+                    return (
+                        <Reveal key={text} delay={i * 0.06}>
+                            <div className="rounded-2xl border border-white/10 bg-navy-surface/50 p-6 h-full">
+                                <Icon size={22} className="text-turquoise" />
+                                <p className="mt-4 text-sm leading-relaxed text-mist">
+                                    {text}
+                                </p>
+                            </div>
+                        </Reveal>
+                    );
+                })}
             </div>
 
             <Reveal className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -143,7 +155,7 @@ export const HowItWorks = () => (
                     onClick={() => scrollToId("contacte")}
                     className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-turquoise px-8 h-14 font-semibold text-navy hover:bg-turquoise-light active:scale-[0.98] transition-all"
                 >
-                    Vull la meva web
+                    {t("how.cta")}
                     <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />
                 </button>
                 <a
@@ -158,6 +170,7 @@ export const HowItWorks = () => (
             </Reveal>
         </div>
     </section>
-);
+    );
+};
 
 export default HowItWorks;
