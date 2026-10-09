@@ -6,6 +6,7 @@ import { scrollToId } from "@/utils/scroll";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
+import BrandLogo from "@/components/BrandLogo";
 
 export const Navbar = () => {
     const { language, setLanguage, t } = useLanguage();
@@ -70,8 +71,7 @@ export const Navbar = () => {
                         className="font-display font-bold text-xl tracking-tight flex items-center gap-1.5"
                         aria-label="Webilo — tornar a l'inici"
                     >
-                        Webilo
-                        <span className="w-2 h-2 rounded-full bg-turquoise inline-block" />
+                        <BrandLogo compact />
                     </button>
 
                     <nav className="hidden lg:flex items-center gap-8">
@@ -141,10 +141,7 @@ export const Navbar = () => {
                         className="fixed inset-0 z-[80] bg-navy text-white flex flex-col"
                     >
                         <div className="h-16 px-5 flex items-center justify-between">
-                            <span className="font-display font-bold text-xl flex items-center gap-1.5">
-                                Webilo
-                                <span className="w-2 h-2 rounded-full bg-turquoise" />
-                            </span>
+                            <BrandLogo compact />
                             <button
                                 data-testid="navbar-mobile-close-button"
                                 onClick={() => setOpen(false)}

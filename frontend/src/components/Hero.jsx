@@ -11,6 +11,7 @@ import { waLink } from "@/data/content";
 import { scrollToId } from "@/utils/scroll";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { useLanguage } from "@/context/LanguageContext";
+import BrandLogo from "@/components/BrandLogo";
 
 const LINES = ["Dissenyem webs", "que fan feina,", "no només boniques."];
 
@@ -304,6 +305,7 @@ export const Hero = () => {
 
             <div className="relative mx-auto max-w-7xl w-full px-5 sm:px-8 pt-32 pb-20 lg:pt-36 lg:pb-24 grid lg:grid-cols-12 gap-14 items-center flex-1">
                 <div className="lg:col-span-7">
+                    <BrandLogo animated className="mb-8 text-white" />
                     <motion.div
                         initial={reduce ? {} : { opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -390,7 +392,7 @@ export const Hero = () => {
                     </motion.p>
                 </div>
 
-                <div className="lg:col-span-5" data-testid="hero-wireframe-canvas">
+                <div className="lg:col-span-5 translate-y-8 lg:translate-y-16" data-testid="hero-wireframe-canvas">
                     <Wireframe reduce={reduce} />
                 </div>
             </div>
