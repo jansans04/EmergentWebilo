@@ -393,7 +393,23 @@ export const Hero = () => {
                 </div>
 
                 <div className="lg:col-span-5 translate-y-8 lg:translate-y-16" data-testid="hero-wireframe-canvas">
-                    <Wireframe reduce={reduce} />
+                    <div className="overflow-hidden rounded-2xl border border-white/10 bg-navy-surface shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]">
+                        <video
+                            data-testid="hero-uploaded-video"
+                            className="block aspect-video w-full object-cover"
+                            src="/lumina.mp4"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            controls
+                            preload="metadata"
+                            aria-label="Animació de mostra de Webilo"
+                        />
+                    </div>
+                    <div className="mt-8">
+                        <Wireframe reduce={reduce} />
+                    </div>
                 </div>
             </div>
 
