@@ -13,6 +13,7 @@ import ProjectShowcase from "@/components/ProjectShowcase";
 import MagneticCursor from "@/components/MagneticCursor";
 import { Toaster } from "@/components/ui/sonner";
 import { scrollToId } from "@/utils/scroll";
+import BrandIntro from "@/components/BrandIntro";
 
 class ErrorBoundary extends Component {
     constructor(props) {
@@ -69,6 +70,7 @@ const Landing = () => {
 
     return (
         <div className="bg-white text-ink font-sans antialiased overflow-x-clip">
+            <BrandIntro />
             <MagneticCursor />
             <Navbar />
             <main>
