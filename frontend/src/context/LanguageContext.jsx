@@ -1,5 +1,11 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
+export const LOCALE_OPTIONS = [
+    { code: "ca", label: "CA", ready: true },
+    { code: "es", label: "ES", ready: true },
+    { code: "en", label: "EN", ready: false },
+];
+
 const translations = {
     ca: {
         nav: { services: "Serveis", demos: "Demos", process: "Com funciona", faq: "FAQ", contact: "Contacta", projects: "Projectes" },

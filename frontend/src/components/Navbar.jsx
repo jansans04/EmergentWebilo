@@ -7,6 +7,7 @@ import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import BrandLogo from "@/components/BrandLogo";
+import { LOCALE_OPTIONS } from "@/context/LanguageContext";
 
 export const Navbar = () => {
     const { language, setLanguage, t } = useLanguage();
@@ -89,14 +90,14 @@ export const Navbar = () => {
 
                     <div className="flex items-center gap-3">
                         <div className="hidden sm:flex items-center rounded-lg border border-current/20 p-0.5" aria-label={t("languageLabel")}>
-                            {["ca", "es"].map((code) => (
+                            {LOCALE_OPTIONS.filter((locale) => locale.ready).map(({ code, label }) => (
                                 <button
                                     key={code}
                                     onClick={() => setLanguage(code)}
                                     aria-pressed={language === code}
                                     className={cn("rounded-md px-2 py-1 text-[11px] font-bold uppercase transition-colors", language === code ? "bg-turquoise text-navy" : "opacity-60 hover:opacity-100")}
                                 >
-                                    {code}
+                                    {label}
                                 </button>
                             ))}
                         </div>
@@ -167,8 +168,8 @@ export const Navbar = () => {
                         </nav>
                         <div className="px-8 pb-10 flex flex-col gap-3">
                             <div className="flex gap-2">
-                                {["ca", "es"].map((code) => (
-                                    <button key={code} onClick={() => setLanguage(code)} className={cn("rounded-lg border px-4 py-2 text-sm font-bold uppercase", language === code ? "border-turquoise bg-turquoise text-navy" : "border-white/25 text-white")}>{code}</button>
+                                {LOCALE_OPTIONS.filter((locale) => locale.ready).map(({ code, label }) => (
+                                    <button key={code} onClick={() => setLanguage(code)} className={cn("rounded-lg border px-4 py-2 text-sm font-bold uppercase", language === code ? "border-turquoise bg-turquoise text-navy" : "border-white/25 text-white")}>{label}</button>
                                 ))}
                             </div>
                             <button
